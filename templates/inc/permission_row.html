@@ -1,0 +1,27 @@
+<tr>
+  <td><span class="text-nowrap">{{ permission.name }}</span></td>
+  <td>
+      {% for role in permission.roles.all %}
+          <span class="text-nowrap">
+              <a href="app-user-list.html">  <!-- Adjust this href as needed -->
+                  <span class="badge bg-label-primary m-1">{{ role.name }}</span>
+              </a>
+          </span>
+      {% empty %}
+          <span class="text-muted">No roles assigned</span>
+      {% endfor %}
+  </td>
+  <td>
+      <span class="text-nowrap">{{ permission.created_at }}</span>
+  </td>
+  <td>
+      <span class="text-nowrap">
+          <button class="btn btn-sm btn-icon me-2" data-bs-target="#editPermissionModal" data-bs-toggle="modal" data-bs-dismiss="modal">
+              <i class="ti ti-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-icon delete-record">
+              <i class="ti ti-trash"></i>
+          </button>
+      </span>
+  </td>
+</tr>

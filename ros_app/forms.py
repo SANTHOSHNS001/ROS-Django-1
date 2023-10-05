@@ -1,18 +1,35 @@
-from django.db import models
-
 from django import forms
-from .models import CustomUser
+from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+
 
 class CustomUserCreationForm(forms.ModelForm):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
-
+    password1 = forms.CharField(
+        label="Password",
+        widget=forms.PasswordInput,
+        required=True
+    )
+    password2 = forms.CharField(
+        label="Confirm Password",
+        widget=forms.PasswordInput,
+        required=True
+    )
+    
     class Meta:
-        model = CustomUser
-        fields = ('username', 'email', 'user_type')
-
-    def clean_password2(self):
-        cd = self.cleaned_data
-        if cd['password'] != cd['password2']:
-            raise forms.ValidationError('Passwords don\'t match.')
-        return cd['password2']
+        model = get_user_model()
+        fields = ['username', 'email', 'first_name', 'last_name', 'picture', 'role']
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password1")
+        confirm_password = cleaned_data.get("password2")
+        
+        if password and confirm_password and password != confirm_password:
+            self.add_error('password2', "Passwords do not match.")
+            
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user

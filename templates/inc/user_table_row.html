@@ -1,0 +1,25 @@
+<tr>
+  <td><span class="text-nowrap">{{ user.username }}</span></td>
+  <td>
+     
+          <span class="text-nowrap">
+              <a href="app-user-list.html">  <!-- Adjust this href as needed -->
+                  <span class="badge bg-label-primary m-1">{{ user.role.name }}</span>
+              </a>
+          </span>
+
+  </td>
+  <td>
+      <span class="text-nowrap">{{ user.created_at }}</span>
+  </td>
+  <td>
+      <span class="text-nowrap">
+          <button class="btn btn-sm btn-icon me-2" data-bs-target="#editPermissionModal" data-bs-toggle="modal" data-bs-dismiss="modal">
+              <i class="ti ti-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-icon delete-record">
+              <i class="ti ti-trash"></i>
+          </button>
+      </span>
+  </td>
+</tr>

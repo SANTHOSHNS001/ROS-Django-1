@@ -1,0 +1,25 @@
+<tr>
+    <td class="text-nowrap fw-medium">{{permission.name}}</td>
+    <td>
+        <div class="d-flex">
+            <div class="form-check me-3 me-lg-5">
+                <input class="form-check-input" type="checkbox" id="permission-{{permission.id}}-Read" name="permission-{{permission.id}}-Read">
+                <label class="form-check-label" for="permission-{{permission.id}}-Read">
+                    Read
+                </label>
+            </div>
+            <div class="form-check me-3 me-lg-5">
+                <input class="form-check-input" type="checkbox" id="permission-{{permission.id}}-Write" name ="permission-{{permission.id}}-Write">
+                <label class="form-check-label" for="permission-{{permission.id}}-Write">
+                    Write
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="permission-{{permission.id}}-Create" name="permission-{{permission.id}}-Create">
+                <label class="form-check-label" for="permission-{{permission.id}}-Create">
+                    Create
+                </label>
+            </div>
+        </div>
+    </td>
+</tr>

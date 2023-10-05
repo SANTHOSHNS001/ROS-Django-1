@@ -1,0 +1,80 @@
+<div class="modal fade" id="addUserModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-3 p-md-5">
+      <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-body">
+        <div class="text-center mb-4">
+          <h3 class="mb-2">Add New User</h3>
+        </div>
+        <form
+            id="addUserForm"
+            class="row g-3"
+            method="post"
+            enctype="multipart/form-data"
+            action="{% url 'add_user' %}"
+        >
+          {% csrf_token %}
+
+          <!-- User Name -->
+          <div class="col-12 mb-3">
+            <label class="form-label" for="username">User Name</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="User Name" required>
+          </div>
+
+          <!-- Email -->
+          <div class="col-12 mb-3">
+            <label class="form-label" for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Email" required>
+          </div>
+
+          <!-- First Name -->
+          <div class="col-12 mb-3">
+            <label class="form-label" for="first_name">First Name</label>
+            <input type="text" id="first_name" name="first_name" class="form-control" placeholder="First Name">
+          </div>
+
+          <!-- Last Name -->
+          <div class="col-12 mb-3">
+            <label class="form-label" for="last_name">Last Name</label>
+            <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name">
+          </div>
+
+          <!-- Password -->
+          <div class="col-12 mb-3">
+            <label class="form-label" for="password1">Password</label>
+            <input type="password" id="password" name="password1" class="form-control" placeholder="Password" required>
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="col-12 mb-3">
+            <label class="form-label" for="password2">Confirm Password</label>
+            <input type="password" id="password" name="password2" class="form-control" placeholder="Confirm Password" required>
+          </div>
+
+          <!-- Role -->
+          <div class="col-12 mb-3">
+            <label class="form-label" for="role">Role</label>
+            <select id="role" name="role" class="form-select" required>
+              <option value="" selected>Select Role</option>
+              {% for role in roles %}
+              <option value="{{ role.id }}">{{ role.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Picture -->
+          <div class="col-12 mb-3">
+            <label class="form-label" for="picture">Picture</label>
+            <input type="file" id="picture" name="picture" class="form-control">
+          </div>
+
+          <!-- Submit buttons -->
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary me-sm-3 me-1">Create User</button>
+            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Discard</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
