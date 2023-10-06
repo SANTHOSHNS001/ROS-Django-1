@@ -1,0 +1,72 @@
+{% extends "layout/base form.html" %}
+
+{% block title %}
+ROS | New Project
+{% endblock title %}
+
+{% block body_content %}
+<div class="card mb-4">
+    <form class="card-body">
+      <h6>Project Details</h6>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label" for="project-username">Project Name</label>
+          <input type="text" id="username" class="form-control" placeholder="john.doe">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="category">Catergory</label>
+          <div class="input-group input-group-merge">
+            <input type="text" id="category" class="form-control">
+            
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="form-password-toggle">
+            <label class="form-label" for="multicol-password">Project Description</label>
+            <div class="input-group input-group-merge">
+                <textarea class="form-control" aria-label="With textarea" placeholder="Description"></textarea>
+              
+            </div>
+          </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label" for="project-username">Project Image</label>
+              <input type="file" id="picture" name="picture" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label" for="category">Project Duration</label>
+              <div class="input-group input-group-merge">
+                <input type="text" id="category" class="form-control">
+                
+              </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6 select2-primary" data-select2-id="19">
+            <label class="form-label" for="multicol-language">Document Needed</label>
+            <div class="position-relative" data-select2-id="18"><select id="multicol-language" class="select2 form-select select2-hidden-accessible" multiple="" data-select2-id="multicol-language" tabindex="-1" aria-hidden="true">
+              <option value="doc1" selected="" data-select2-id="4">Document 1</option>
+              <option value="doc2" selected="" data-select2-id="5">Document 2</option>
+
+            </select>
+        </div>
+          </div>
+        <div class="col-md-6">
+          <label class="form-label" for="category">Assigned To</label>
+          <div class="input-group input-group-merge">
+            <select id="role" name="role" class="form-select" required>
+                <option value="" selected>Select Role</option>
+                <option value="1">Admin</option>
+                <option value="2">User</option>
+                
+              </select>
+            
+          </div>
+  </div>
+      <div class="pt-4">
+        <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">Submit</button>
+        <button type="reset" class="btn btn-label-secondary waves-effect">Cancel</button>
+      </div>
+    </form>
+  </div>
+{% endblock body_content %}

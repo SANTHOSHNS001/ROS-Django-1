@@ -1,0 +1,161 @@
+{% extends "layout/base.html" %}
+
+{% block title %}ROS | Users{% endblock title %}
+
+{% block body_content %}
+<!-- Layout wrapper -->
+                  <!-- Content -->
+                  <div class="container-xxl flex-grow-1 container-p-y">
+                   
+                      <!-- Permission Table -->
+    <div class="card">
+      <div class="card-datatable table-responsive">
+        <div
+          id="DataTables_Table_0_wrapper"
+          class="dataTables_wrapper dt-bootstrap5 no-footer"
+        >
+          <div class="row mx-1">
+            <div class="col-sm-12 col-md-3">
+              <div
+                class="dataTables_length"
+                id="DataTables_Table_0_length"
+              >
+                <label
+                  >Show
+                  <select
+                    name="DataTables_Table_0_length"
+                    aria-controls="DataTables_Table_0"
+                    class="form-select"
+                  >
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                  </select></label
+                >
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-9">
+              <div
+                class="dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-md-end justify-content-center flex-wrap me-1"
+              >
+                <div class="me-3">
+                  <div
+                    id="DataTables_Table_0_filter"
+                    class="dataTables_filter"
+                  >
+                    <label
+                      >Search<input
+                        type="search"
+                        class="form-control"
+                        placeholder="Search.."
+                        aria-controls="DataTables_Table_0"
+                    /></label>
+                  </div>
+                </div>
+                <div class="dt-buttons btn-group flex-wrap">
+                  <button
+                    class="btn add-new btn-primary mb-3 mb-md-0"
+                    tabindex="0"
+                    aria-controls="DataTables_Table_0"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addCocumentModal"
+                  >
+                    <span>Add</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+                <!-- Permission Table -->
+      <div class="card">
+        <div class="card-datatable table-responsive">
+          <table class="datatables-permissions table border-top" id="datatable">
+            <thead>
+              <tr>
+                <th>S. No.</th>
+                <th>Document Name</th>
+                <th>Duration</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in users  %}
+                  {% include "inc/user_table_row.html" %}
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--/ Permission Table -->
+          <div class="row mx-2">
+            <div class="col-sm-12 col-md-6">
+              <div
+                class="dataTables_info"
+                id="DataTables_Table_0_info"
+                role="status"
+                aria-live="polite"
+              >
+                Showing 1 to 9 of 9 entries
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-6">
+              <div
+                class="dataTables_paginate paging_simple_numbers"
+                id="DataTables_Table_0_paginate"
+              >
+                <ul class="pagination">
+                  <li
+                    class="paginate_button page-item previous disabled"
+                    id="DataTables_Table_0_previous"
+                  >
+                    <a
+                      aria-controls="DataTables_Table_0"
+                      aria-disabled="true"
+                      aria-role="link"
+                      data-dt-idx="previous"
+                      tabindex="0"
+                      class="page-link"
+                      >Previous</a
+                    >
+                  </li>
+                  <li class="paginate_button page-item active">
+                    <a
+                      href="#"
+                      aria-controls="DataTables_Table_0"
+                      aria-role="link"
+                      aria-current="page"
+                      data-dt-idx="0"
+                      tabindex="0"
+                      class="page-link"
+                      >1</a
+                    >
+                  </li>
+                  <li
+                    class="paginate_button page-item next disabled"
+                    id="DataTables_Table_0_next"
+                  >
+                    <a
+                      aria-controls="DataTables_Table_0"
+                      aria-disabled="true"
+                      aria-role="link"
+                      data-dt-idx="next"
+                      tabindex="0"
+                      class="page-link"
+                      >Next</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--/ Permission Table -->
+                 </div>
+                 <!-- / Content -->
+         {% include "modals/add_doc_modal.html" %}
+  {% endblock body_content %}

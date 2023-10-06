@@ -4,8 +4,14 @@ from django.contrib import messages
 import logging
 from django.db.models import Count
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 
 from .models import *
+
+
+
+
+
 # Set up logging
 logger = logging.getLogger(__name__)
 
@@ -230,3 +236,69 @@ def add_user_view(request):
             'roles': roles,
         }
         return render(request, 'users.html', context)
+
+def edit_user_view(request, user_id):
+    User = get_user_model()
+    user_instance = get_object_or_404(User, pk=user_id)
+
+    if request.method == 'POST':
+        # Get user input from the request
+        username = request.POST['username']
+        email = request.POST['email']
+        first_name = request.POST.get('first_name', '')
+        last_name = request.POST.get('last_name', '')
+        role_id = request.POST.get('role')
+        picture = request.FILES.get('picture')  # Handle uploaded picture
+
+        # Check if the username already exists for another user
+        if User.objects.filter(username=username).exclude(pk=user_id).exists():
+            messages.error(request, 'Username already exists')
+            return redirect(f'edit-user/{user_id}/')
+
+        # Update the user details
+        user_instance.username = username
+        user_instance.email = email
+        user_instance.first_name = first_name
+        user_instance.last_name = last_name
+
+        # Handle the user's profile picture (if provided)
+        if picture:
+            user_instance.picture = picture
+        
+        # Assign the selected role (assuming you have a Role model)
+        if role_id:
+            try:
+                role = CustomRoles.objects.get(pk=role_id)
+                user_instance.role = role
+            except CustomRoles.DoesNotExist:
+                messages.error(request, 'Selected role does not exist')
+                return redirect(f'edit-user/{user_id}/')
+        
+        user_instance.save()
+        messages.success(request, 'User updated successfully!')
+        return redirect('success_page')  # Or some other page
+
+    roles = CustomRoles.objects.all()  # Fetch roles for the select dropdown
+    context = {
+        'user_instance': user_instance,
+        'roles': roles,
+    }
+    return render(request, 'edit_user.html', context)
+
+def document_title(request):
+    if request.user.is_authenticated:
+        return render(request, 'document_title..html')
+    else:
+        return redirect('login')
+    
+def project_view(request):
+    if request.user.is_authenticated:
+        return render(request, 'project_view.html')
+    else:
+        return redirect('login')
+
+def create_project_view(request):
+    if request.user.is_authenticated:
+        return render(request, 'create_project.html')
+    else:
+        return redirect('login')

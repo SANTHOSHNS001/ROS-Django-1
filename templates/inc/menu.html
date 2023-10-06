@@ -51,24 +51,32 @@
     </li>
 
     <li class="menu-item">
-      <a href="{% url 'forms' %}" class="menu-link">
-        <i class="menu-icon tf-icons ti ti-checkbox"></i>
-        <div data-i18n="Form Validation">Form Validation</div>
-      </a>
-    </li>
-
-    <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons ti ti-lock"></i>
-        <div data-i18n="Authentications">Authentications</div>
+        <div data-i18n="Master">Master</div>
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
-          <a href="index.php" class="menu-link">
-            <div data-i18n="login">Login</div>
+          <a href="{% url 'document_title' %}" class="menu-link">
+            <div data-i18n="Document Title">Document Title</div>
           </a>
         </li>
       </ul>
+
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons ti ti-lock"></i>
+        <div data-i18n="Projects">Projects</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="{% url 'project_view' %}" class="menu-link">
+            <div data-i18n="Add Project">Add Project</div>
+          </a>
+        </li>
+      </ul>
+
     </li>
   </ul>
 </aside>

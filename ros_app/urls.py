@@ -14,5 +14,9 @@ urlpatterns = [
     path('users/', views.users_view, name='users'),
     path('forms/', views.forms, name='forms'),
     path('add_user/', views.add_user_view, name='add_user'),
+    path('edit-user/<int:user_id>/', views.edit_user_view, name='edit_user'),
+    path('document_title/', views.document_title, name='document_title'),
+    path('project_view/', views.project_view, name='project_view'),
+    path('create_project/', views.create_project_view, name='create_project'),
     # ... other url patterns
 ]

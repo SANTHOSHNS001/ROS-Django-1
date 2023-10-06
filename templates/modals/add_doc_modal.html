@@ -1,0 +1,56 @@
+<div class="modal fade" id="addCocumentModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-3 p-md-5">
+      <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+      <div class="modal-body">
+        <div class="text-center mb-4">
+          <h3 class="mb-2">Add New Document</h3>
+        </div>
+        <form
+            id="adddocumentForm"
+            class="row g-3"
+            method="post"
+            enctype="multipart/form-data"
+            {% comment %} action="{% url 'add_document' %}" {% endcomment %}
+        >
+          {% csrf_token %}
+
+          <!-- document Name -->
+          <div class="col-12 mb-3">
+            <label class="form-label" for="documentname">Document Name</label>
+            <input type="text" id="documentname" name="documentname" class="form-control" placeholder="Document Name" required>
+          </div>
+
+         
+          {% comment %} <!-- Picture -->
+          <div class="col-12 mb-3">
+            <label class="form-label" for="picture">Picture</label>
+            <input type="file" id="picture" name="picture" class="form-control">
+          </div> {% endcomment %}
+
+          <!-- document Upload Time -->
+          <div class="col-12 mb-3">
+            <label class="form-label" for="documentname">Document Duration</label>
+            <input type="text" id="doc_duration" name="doc_duration" class="form-control" placeholder="Document Duration" required>
+          </div>
+          
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="corePermission"
+            />
+            <label class="form-check-label" for="doc_status">
+              Status
+            </label>
+          </div>
+          <!-- Submit buttons -->
+          <div class="col-12 text-center">
+            <button type="submit" class="btn btn-primary me-sm-3 me-1">Create document</button>
+            <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close">Discard</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
