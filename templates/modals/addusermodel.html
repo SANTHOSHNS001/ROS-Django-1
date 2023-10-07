@@ -78,3 +78,60 @@
     </div>
   </div>
 </div>
+{% block js %}
+ 
+
+<script>
+  window.onload = function(){
+    console.log('hai');
+    const addUserForm_validater = FormValidation.formValidation(
+      document.getElementById('addUserForm'),
+      {
+        fields: {
+            'email': {
+                validators: {
+                    emailAddress: {
+                        message: 'The value is not a valid email address'
+                    }                   
+                }
+            }
+        },
+        plugins: {
+          trigger: new FormValidation.plugins.Trigger(),
+          bootstrap5: new FormValidation.plugins.Bootstrap5({
+            eleValidClass: "",
+            rowSelector: function(e, a) {
+                switch (e) {
+                case "formValidationName":
+                case "formValidationEmail":
+                case "formValidationPass":
+                case "formValidationConfirmPass":
+                case "formValidationFile":
+                case "formValidationDob":
+                case "formValidationSelect2":
+                case "formValidationLang":
+                case "formValidationTech":
+                case "formValidationHobbies":
+                case "formValidationBio":
+                case "formValidationGender":
+                    return ".col-md-6";
+                case "formValidationPlan":
+                    return ".col-xl-3";
+                case "formValidationSwitch":
+                case "formValidationCheckbox":
+                    return ".col-12";
+                default:
+                    return ".row"
+                }
+            }
+        }),
+        submitButton: new FormValidation.plugins.SubmitButton,
+        defaultSubmit: new FormValidation.plugins.DefaultSubmit,
+        autoFocus: new FormValidation.plugins.AutoFocus
+      },
+      }
+  )
+  }
+
+</script>
+{% endblock js %}

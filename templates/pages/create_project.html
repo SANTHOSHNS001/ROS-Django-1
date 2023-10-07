@@ -1,0 +1,108 @@
+{% extends "layout/container.html" %}
+{% block title %}
+ | New Project
+{% endblock title %}
+{% block style %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+{% endblock style %}
+{% block body_content %}
+<br>
+<div class="card mb-4">
+  <form class="card-body" method="post">
+    {% csrf_token %}
+    <h6>1. Project Details</h6>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label" for="project_name">Project Name</label>
+        <input type="text" id="project_name" class="form-control" name="{{ form.project_name.name }}"  placeholder="Enter Project Name">
+      </div>
+      
+      <div class="col-md-6">
+        <label class="form-label" for="description">Project No.</label>
+        <input type="text" id="description" class="form-control" name="{{ form.description.name }}"  placeholder="Enter Project Description">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="start_date">Start Date</label>
+        <input type="text" id="start_date" class="form-control date-picker flatpickr-input active" placeholder="YYYY-MM-DD" name="{{ form.start_date.name }}" >
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="end_date">End Date</label>
+        <input type="text" id="end_date" class="form-control dob-picker date-picker flatpickr-input" placeholder="YYYY-MM-DD" name="{{ form.end_date.name }}" >
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="project_manager">Project Manager</label>
+        <select id="project_manager" class="form-select" name="{{ form.project_manager.name }}">
+          <option  data-select2-id="2">Select</option>
+          {% for manager in project_managers %}
+            <option value="{{ manager.id }}">{{ manager.first_name }} {{ manager.last_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="document_manager">Document Manager</label>
+        <select id="document_manager"  class="form-select" name="{{ form.document_manager.name }}">
+          <option value="" data-select2-id="2">Select</option>
+          {% for manager in document_managers %}
+        <option value="{{ manager.id }}">{{ manager.first_name }} {{ manager.last_name }}</option>
+    {% endfor %}
+        </select>
+        </select>
+      </div>
+    </div>
+    <hr class="my-4 mx-n4">
+    <h6>2. Client Details</h6>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label" for="client_name">Client Name</label>
+        <input type="text" id="client_name" class="form-control" name="{{ form.client_name.name }}" placeholder= "Enter Client Name">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="cpm_name">Project Manager Name</label>
+        <input type="text" id="cpm_name" class="form-control" name="{{ form.cpm_name.name }}" placeholder= "Enter Project Manager Name">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="cpm_email">Project Manager Email</label>
+        <input type="text" id="cpm_email" class="form-control" name="{{ form.cpm_email.name }}" placeholder= "Enter Project Manager Email">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="cpm_phone">Project Manager Phone</label>
+        <input type="text" id="cpm_phone" class="form-control phone-mask" name="{{ form.cpm_phone.name }}" placeholder= "Enter Project Manager Phone Number">
+
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="cdm_name">Document Manager Name</label>
+        <input type="text" id="cdm_name" class="form-control" name="{{ form.cdm_name.name }}" placeholder= "Enter Document Manager Name">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="cdm_email">Document Manager Email</label>
+        <input type="text" id="cdm_email" class="form-control" name="{{ form.cdm_email.name }}" placeholder= "Enter Document Manager Email">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label" for="cdm_phone">Document Manager Phone</label>
+        <input type="text" id="cdm_phone" class="form-control phone-mask" name="{{ form.cdm_phone.name }}" placeholder= "Enter Document Manager Phone Number">
+      </div>
+    </div>
+    <div class="pt-4">
+      <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">Submit</button>
+      <button type="reset" class="btn btn-label-secondary waves-effect">Cancel</button>
+    </div>
+    
+  </form>
+</div>
+{% endblock body_content %}
+
+{% block js %}
+<script>
+  window.onload = function(){
+    
+    $('#project_manager').select2({})
+    $('#document_manager').select2({})
+    document.querySelectorAll('.date-picker').forEach(function(e) {
+      e.flatpickr({
+          monthSelectorType: "static"
+      })
+  })
+
+  }
+</script>
+{% endblock js %}

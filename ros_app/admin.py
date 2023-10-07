@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser
+from .models import *
 
 class CustomUserAdmin(UserAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff')
@@ -8,3 +8,6 @@ class CustomUserAdmin(UserAdmin):
     # add any other custom fields or configurations
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(CustomPermissions)
+admin.site.register(CustomRoles)
+admin.site.register(Projects)

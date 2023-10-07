@@ -1,6 +1,6 @@
-{% extends "layout/base.html" %}
+{% extends "layout/container.html" %}
 
-{% block title %}ROS | Users{% endblock title %}
+{% block title %} | Projects{% endblock title %}
 
 {% block body_content %}
 <!-- Layout wrapper -->
@@ -12,12 +12,11 @@
                              <div class="card-body">
                                 <div class="d-flex align-items-start justify-content-between">
                                    <div class="content-left">
-                                      <span>Session</span>
+                                      <span>Total Projects</span>
                                       <div class="d-flex align-items-center my-2">
-                                         <h3 class="mb-0 me-2">21,459</h3>
-                                         <p class="text-success mb-0">(+29%)</p>
+                                         <h3 class="mb-0 me-2">150</h3>
                                       </div>
-                                      <p class="mb-0">Total Users</p>
+                                      
                                    </div>
                                    <div class="avatar">
                                       <span class="avatar-initial rounded bg-label-primary">
@@ -33,12 +32,11 @@
                              <div class="card-body">
                                 <div class="d-flex align-items-start justify-content-between">
                                    <div class="content-left">
-                                      <span>Paid Users</span>
+                                      <span>Completed</span>
                                       <div class="d-flex align-items-center my-2">
-                                         <h3 class="mb-0 me-2">4,567</h3>
-                                         <p class="text-success mb-0">(+18%)</p>
+                                         <h3 class="mb-0 me-2">100</h3>
                                       </div>
-                                      <p class="mb-0">Last week analytics </p>
+                                      
                                    </div>
                                    <div class="avatar">
                                       <span class="avatar-initial rounded bg-label-danger">
@@ -54,12 +52,11 @@
                              <div class="card-body">
                                 <div class="d-flex align-items-start justify-content-between">
                                    <div class="content-left">
-                                      <span>Active Users</span>
+                                      <span>Pending</span>
                                       <div class="d-flex align-items-center my-2">
-                                         <h3 class="mb-0 me-2">19,860</h3>
-                                         <p class="text-danger mb-0">(-14%)</p>
+                                         <h3 class="mb-0 me-2">34</h3>
                                       </div>
-                                      <p class="mb-0">Last week analytics</p>
+                                     
                                    </div>
                                    <div class="avatar">
                                       <span class="avatar-initial rounded bg-label-success">
@@ -75,12 +72,11 @@
                              <div class="card-body">
                                 <div class="d-flex align-items-start justify-content-between">
                                    <div class="content-left">
-                                      <span>Pending Users</span>
+                                      <span>Ongoing</span>
                                       <div class="d-flex align-items-center my-2">
-                                         <h3 class="mb-0 me-2">237</h3>
-                                         <p class="text-success mb-0">(+42%)</p>
+                                         <h3 class="mb-0 me-2">16</h3>
                                       </div>
-                                      <p class="mb-0">Last week analytics</p>
+                                     
                                    </div>
                                    <div class="avatar">
                                       <span class="avatar-initial rounded bg-label-warning">
@@ -139,16 +135,15 @@
                   </div>
                 </div>
                 <div class="dt-buttons btn-group flex-wrap">
+                    <a href="{% url 'create_project' %}">
                   <button
                     class="btn add-new btn-primary mb-3 mb-md-0"
-                    tabindex="0"
+                    {% comment %} tabindex="0" {% endcomment %}
                     aria-controls="DataTables_Table_0"
                     type="button"
-                    data-bs-toggle="modal"
-                    data-bs-target="#addUserModal"
                   >
-                    <span>Add New User</span>
-                  </button>
+                    <span>  Add Project</span>
+                  </button></a>
                 </div>
               </div>
             </div>
@@ -159,9 +154,9 @@
           <table class="datatables-permissions table border-top" id="datatable">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Role</th>
-                <th>Created Date</th>
+                <th>Project</th>
+                <th>Duration</th>
+                <th>Assigned To</th>
                 <th>Actions</th>
               </tr>
             </thead>

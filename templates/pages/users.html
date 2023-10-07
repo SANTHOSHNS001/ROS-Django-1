@@ -1,22 +1,23 @@
-{% extends "layout/base.html" %}
+{% extends "layout/container.html" %}
 
-{% block title %}ROS | Users{% endblock title %}
+{% block title %} | Users{% endblock title %}
 
 {% block body_content %}
 <!-- Layout wrapper -->
                   <!-- Content -->
-                  <div class="container-xxl flex-grow-1 container-p-y">
+                  
                     <div class="row g-4 mb-4">
                        <div class="col-sm-6 col-xl-3">
                           <div class="card">
                              <div class="card-body">
                                 <div class="d-flex align-items-start justify-content-between">
                                    <div class="content-left">
-                                      <span>Total Projects</span>
+                                      <span>Session</span>
                                       <div class="d-flex align-items-center my-2">
-                                         <h3 class="mb-0 me-2">150</h3>
+                                         <h3 class="mb-0 me-2">21,459</h3>
+                                         <p class="text-success mb-0">(+29%)</p>
                                       </div>
-                                      
+                                      <p class="mb-0">Total Users</p>
                                    </div>
                                    <div class="avatar">
                                       <span class="avatar-initial rounded bg-label-primary">
@@ -32,11 +33,12 @@
                              <div class="card-body">
                                 <div class="d-flex align-items-start justify-content-between">
                                    <div class="content-left">
-                                      <span>Completed</span>
+                                      <span>Paid Users</span>
                                       <div class="d-flex align-items-center my-2">
-                                         <h3 class="mb-0 me-2">100</h3>
+                                         <h3 class="mb-0 me-2">4,567</h3>
+                                         <p class="text-success mb-0">(+18%)</p>
                                       </div>
-                                      
+                                      <p class="mb-0">Last week analytics </p>
                                    </div>
                                    <div class="avatar">
                                       <span class="avatar-initial rounded bg-label-danger">
@@ -52,11 +54,12 @@
                              <div class="card-body">
                                 <div class="d-flex align-items-start justify-content-between">
                                    <div class="content-left">
-                                      <span>Pending</span>
+                                      <span>Active Users</span>
                                       <div class="d-flex align-items-center my-2">
-                                         <h3 class="mb-0 me-2">34</h3>
+                                         <h3 class="mb-0 me-2">19,860</h3>
+                                         <p class="text-danger mb-0">(-14%)</p>
                                       </div>
-                                     
+                                      <p class="mb-0">Last week analytics</p>
                                    </div>
                                    <div class="avatar">
                                       <span class="avatar-initial rounded bg-label-success">
@@ -72,11 +75,12 @@
                              <div class="card-body">
                                 <div class="d-flex align-items-start justify-content-between">
                                    <div class="content-left">
-                                      <span>Ongoing</span>
+                                      <span>Pending Users</span>
                                       <div class="d-flex align-items-center my-2">
-                                         <h3 class="mb-0 me-2">16</h3>
+                                         <h3 class="mb-0 me-2">237</h3>
+                                         <p class="text-success mb-0">(+42%)</p>
                                       </div>
-                                     
+                                      <p class="mb-0">Last week analytics</p>
                                    </div>
                                    <div class="avatar">
                                       <span class="avatar-initial rounded bg-label-warning">
@@ -135,15 +139,16 @@
                   </div>
                 </div>
                 <div class="dt-buttons btn-group flex-wrap">
-                    <a href="{% url 'create_project' %}">
                   <button
                     class="btn add-new btn-primary mb-3 mb-md-0"
-                    {% comment %} tabindex="0" {% endcomment %}
+                    tabindex="0"
                     aria-controls="DataTables_Table_0"
                     type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addUserModal"
                   >
-                    <span>  Add Project</span>
-                  </button></a>
+                    <span>Add New User</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -154,9 +159,9 @@
           <table class="datatables-permissions table border-top" id="datatable">
             <thead>
               <tr>
-                <th>Project</th>
-                <th>Duration</th>
-                <th>Assigned To</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Created Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -234,7 +239,7 @@
       </div>
     </div>
     <!--/ Permission Table -->
-                 </div>
+                 
                  <!-- / Content -->
          {% include "modals/addusermodel.html" %}
   {% endblock body_content %}

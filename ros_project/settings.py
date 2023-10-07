@@ -49,6 +49,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "ros_app.middleware.LoginRequiredMiddleware",
+    "ros_app.middleware.UsernameMiddleware"
 ]
 
 ROOT_URLCONF = "ros_project.urls"
@@ -64,6 +66,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "ros_app.context_processors.username_processor"
             ],
         },
     },
