@@ -8,7 +8,7 @@
 {% block body_content %}
 <br>
 <div class="card mb-4">
-  <form class="card-body" method="post">
+  <form class="card-body" id="formAuthentication" method="post">
     {% csrf_token %}
     <h6>1. Project Details</h6>
     <div class="row g-3">
@@ -41,8 +41,9 @@
       <div class="col-md-6">
         <label class="form-label" for="document_manager">Document Manager</label>
         <select id="document_manager"  class="form-select" name="{{ form.document_manager.name }}">
-          <option value="" data-select2-id="2">Select</option>
+          <option  data-select2-id="2">Select</option>
           {% for manager in document_managers %}
+          
         <option value="{{ manager.id }}">{{ manager.first_name }} {{ manager.last_name }}</option>
     {% endfor %}
         </select>

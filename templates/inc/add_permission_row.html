@@ -1,25 +1,27 @@
 <tr>
-    <td class="text-nowrap fw-medium">{{permission.name}}</td>
-    <td>
-        <div class="d-flex">
-            <div class="form-check me-3 me-lg-5">
-                <input class="form-check-input" type="checkbox" id="permission-{{permission.id}}-Read" name="permission-{{permission.id}}-Read">
-                <label class="form-check-label" for="permission-{{permission.id}}-Read">
-                    Read
-                </label>
-            </div>
-            <div class="form-check me-3 me-lg-5">
-                <input class="form-check-input" type="checkbox" id="permission-{{permission.id}}-Write" name ="permission-{{permission.id}}-Write">
-                <label class="form-check-label" for="permission-{{permission.id}}-Write">
-                    Write
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="permission-{{permission.id}}-Create" name="permission-{{permission.id}}-Create">
-                <label class="form-check-label" for="permission-{{permission.id}}-Create">
-                    Create
-                </label>
-            </div>
+    <td class="text-nowrap fw-medium">{{ permission.name }}</td>
+    <td class="text-center">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="read" id="can_read_{{ permission.name|lower }}" name="permission_{{ permission.name|lower }}">
+            <label class="form-check-label" for="can_read_{{ permission.name|lower }}">Read</label>
+        </div>
+    </td>
+    <td class="text-center">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="edit" id="can_edit_{{ permission.name|lower }}" name="permission_{{ permission.name|lower }}">
+            <label class="form-check-label" for="can_edit_{{ permission.name|lower }}">Edit</label>
+        </div>
+    </td>
+    <td class="text-center">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="create" id="can_create_{{ permission.name|lower }}" name="permission_{{ permission.name|lower }}">
+            <label class="form-check-label" for="can_create_{{ permission.name|lower }}">Create</label>
+        </div>
+    </td>
+    <td class="text-center">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="delete" id="can_delete_{{ permission.name|lower }}" name="permission_{{ permission.name|lower }}">
+            <label class="form-check-label" for="can_delete_{{ permission.name|lower }}">Delete</label>
         </div>
     </td>
 </tr>

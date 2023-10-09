@@ -1,0 +1,30 @@
+<tr>
+  <td><span class="text-nowrap">{{ doc.document_title }}</span></td>
+  <td>
+    <span class="text-nowrap">{{ doc.duration }} Day(s)</span>
+  </td>
+
+  <td>
+    <span class="text-nowrap">
+      
+      <span class="badge bg-label-primary m-1">{{ doc.ros_engineer}}</span>
+    </span>
+  </td>
+
+
+  <td>
+    <span class="text-nowrap">
+      <button
+        class="btn btn-sm btn-icon me-2"
+        data-bs-target="#editPermissionModal"
+        data-bs-toggle="modal"
+        data-bs-dismiss="modal"
+      >
+        <i class="ti ti-edit"></i>
+      </button>
+      <button class="btn btn-sm btn-icon delete-record">
+        <i class="ti ti-trash"></i>
+      </button>
+    </span>
+  </td>
+</tr>

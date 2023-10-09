@@ -7,7 +7,9 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('username', 'email')
     # add any other custom fields or configurations
 
-admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(CustomPermissions)
+admin.site.register(CustomUser)
 admin.site.register(CustomRoles)
+admin.site.register(CustomPermissions)
+admin.site.register(RolePermissionAssociation)
 admin.site.register(Projects)
+admin.site.register(VDML_Document)

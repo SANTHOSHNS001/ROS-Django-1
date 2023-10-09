@@ -144,63 +144,51 @@
             <!--/ Role cards -->
 
             <!-- Add Role Modal -->
-            <!-- Add Role Modal -->
-            <div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
-                    <div class="modal-content p-3 p-md-5">
-                        <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
-                        <div class="modal-body">
-                            <div class="text-center mb-4">
-                                <h3 class="role-title mb-2">Add New Role</h3>
-                                <p class="text-muted">Set role permissions</p>
-                            </div>
-                            <!-- Add role form -->
-                            <form id="addRoleForm" class="row g-3 fv-plugins-bootstrap5 fv-plugins-framework"  novalidate="novalidate" action="{% url 'create_role' %}" method="post">
-                                {% csrf_token %}
-                                <div class="col-12 mb-4 fv-plugins-icon-container">
-                                    <label class="form-label" for="modalRoleName">Role Name</label>
-                                    <input type="text" id="modalRoleName" name="modalRoleName" class="form-control" placeholder="Enter a role name" tabindex="-1">
-                                    <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
-                                </div>
-                                <div class="col-12">
-                                    <h5>Role Permissions</h5>
-                                    <!-- Permission table -->
-                                    <div class="table-responsive">
-                                        <table class="table table-flush-spacing">
-                                            <tbody>
-                                                <tr>
-                                                    <td class="text-nowrap fw-medium">Administrator Access <i class="ti ti-info-circle" data-bs-toggle="tooltip" data-bs-placement="top" aria-label="Allows a full access to the system" data-bs-original-title="Allows a full access to the system"></i></td>
-                                                    <td>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox" id="selectAll">
-                                                            <label class="form-check-label" for="selectAll">
-                                                                Select All
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                {% for permission in permissions %}
-                                                {% include "inc/add_permission_row.html" %}
-                                                {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <!-- Permission table -->
-                                </div>
-                                <div class="col-12 text-center mt-4">
-                                    <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">Submit</button>
-                                    <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
-                                </div>
-                                <input type="hidden">
-                            </form>
-                            <!--/ Add role form -->
-                        </div>
-                    </div>
+<div class="modal fade" id="addRoleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+        <div class="modal-content p-3 p-md-5">
+            <button type="button" class="btn-close btn-pinned" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-body">
+                <div class="text-center mb-4">
+                    <h3 class="role-title mb-2">Add New Role</h3>
+                    <p class="text-muted">Set role permissions</p>
                 </div>
-            </div>
-            <!--/ Add Role Modal -->
+                <!-- Add role form -->
+                <form id="addRoleForm" class="row g-3 fv-plugins-bootstrap5 fv-plugins-framework" novalidate="novalidate" action="{% url 'create_role' %}" method="post">
+                    {% csrf_token %}
+                    <div class="col-12 mb-4 fv-plugins-icon-container">
+                        <label class="form-label" for="modalRoleName">Role Name</label>
+                        <input type="text" id="modalRoleName" name="{{form.modalRoleName.name}}" class="form-control" placeholder="Enter a role name">
+                        
+                        <div class="fv-plugins-message-container fv-plugins-message-container--enabled invalid-feedback"></div>
+                    </div>
+                    <div class="col-12">
+                        <h5>Role Permissions</h5>
+                        <!-- Permission table -->
+                        <div class="table-responsive">
+                            <table class="table table-flush-spacing">
 
-            <!-- / Add Role Modal -->
+                                <tbody>
+                                    {% for permission in permissions %}
+                                    {% include "inc/add_permission_row.html" %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- Permission table -->
+                    </div>
+                    <div class="col-12 text-center mt-4">
+                        <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">Submit</button>
+                        <button type="reset" class="btn btn-label-secondary waves-effect" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <input type="hidden">
+                </form>
+                <!--/ Add role form -->
+            </div>
+        </div>
+    </div>
+</div>
+<!--/ Add Role Modal -->
 
         </div>
     </div>

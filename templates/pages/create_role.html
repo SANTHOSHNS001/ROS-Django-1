@@ -1,49 +1,50 @@
 {% extends "layout/container.html" %}
 
 {% block body_content %}
-    <div class="container">
-        <h2>Create New Role</h2>
+<div class="container">
+    <h2>Create New Role</h2>
 
-        <form method="post">
-            {% csrf_token %}
+    <form method="post">
+        {% csrf_token %}
 
-            <div class="form-group">
-                <label for="modalRoleName">Role Name</label>
-                <input type="text" class="form-control" id="modalRoleName" name="modalRoleName" placeholder="Enter role name" required>
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">Role Name</label>
+            {{ form.name }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.description.id_for_label }}">Role Description</label>
+            {{ form.description }}
+        </div>
+
+        <h4>Permissions</h4>
+        {% for permission in form.permission %}
+            <div class="form-check">
+                {{ permission }}
+                <label class="form-check-label" for="{{ permission.id_for_label }}">
+                    {{ permission.choice_label }}
+                </label>
+                <!-- Create separate checkboxes for Read, Edit, Create, and Delete -->
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="read_{{ permission.id_for_label }}" name="read_{{ permission.name }}" value="1">
+                    <label class="form-check-label" for="read_{{ permission.id_for_label }}">Read</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="edit_{{ permission.id_for_label }}" name="edit_{{ permission.name }}" value="1">
+                    <label class="form-check-label" for="edit_{{ permission.id_for_label }}">Edit</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="create_{{ permission.id_for_label }}" name="create_{{ permission.name }}" value="1">
+                    <label class="form-check-label" for="create_{{ permission.id_for_label }}">Create</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" id="delete_{{ permission.id_for_label }}" name="delete_{{ permission.name }}" value="1">
+                    <label class="form-check-label" for="delete_{{ permission.id_for_label }}">Delete</label>
+                </div>
             </div>
+        {% endfor %}
 
-            <h4>Permissions</h4>
-            {% for permission in all_permissions %}
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{ permission.id }}" id="permission-{{ permission.name }}-add" name="permission-{{ permission.name }}-add">
-                    <label class="form-check-label" for="permission-{{ permission.name }}-add">
-                        Add {{ permission.name }}
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{ permission.id }}" id="permission-{{ permission.name }}-change" name="permission-{{ permission.name }}-change">
-                    <label class="form-check-label" for="permission-{{ permission.name }}-change">
-                        Change {{ permission.name }}
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{ permission.id }}" id="permission-{{ permission.name }}-delete" name="permission-{{ permission.name }}-delete">
-                    <label class="form-check-label" for="permission-{{ permission.name }}-delete">
-                        Delete {{ permission.name }}
-                    </label>
-                </div>
-
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{ permission.id }}" id="permission-{{ permission.name }}-view" name="permission-{{ permission.name }}-view">
-                    <label class="form-check-label" for="permission-{{ permission.name }}-view">
-                        View {{ permission.name }}
-                    </label>
-                </div>
-            {% endfor %}
-
-            <button type="submit" class="btn btn-primary mt-3">Create Role</button>
-        </form>
-    </div>
+        <button type="submit" class="btn btn-primary mt-3">Create Role</button>
+    </form>
+</div>
 {% endblock %}

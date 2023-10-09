@@ -1,0 +1,170 @@
+{% extends "layout/container.html" %}
+{% block title %}
+ | New VDML Document
+{% endblock title %}
+{% block style %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+{% endblock style %}
+{% block body_content %}
+<br>
+<div class="card mb-4">
+  <form class="card-body" method="post">
+    {% csrf_token %}
+    <h6>1. VDML Document Details</h6>
+    <div class="row g-3">
+      
+      <!-- Customer Document Number -->
+      <div class="col-md-6">
+        <label class="form-label" for="customer_doc_no">Customer Document Number</label>
+        <input type="text" id="customer_doc_no" class="form-control" name="{{ form.customer_doc_no.name }}" placeholder="Enter Customer Document Number">
+      </div>
+
+      <!-- ROS Document Number -->
+      <div class="col-md-6">
+        <label class="form-label" for="ros_doc_no">ROS Document Number</label>
+        <input type="text" id="ros_doc_no" class="form-control" name="{{ form.ros_doc_no.name }}" placeholder="Enter ROS Document Number">
+      </div>
+
+      <!-- Document Title -->
+      <div class="col-md-6">
+        <label class="form-label" for="document_title">Document Title</label>
+        <input type="text" id="document_title" class="form-control" name="{{ form.document_title.name }}" placeholder="Enter Document Title">
+      </div>
+
+      <!-- Document Type -->
+      <div class="col-md-6">
+        <label class="form-label" for="document_type">Document Type</label>
+        <input type="text" id="document_type" class="form-control" name="{{ form.document_type.name }}" placeholder="Enter Document Type">
+      </div>
+
+      <!-- Document Size -->
+      <div class="col-md-6">
+        <label class="form-label" for="document_size">Document Size</label>
+        <select id="document_size" class="form-select" name="{{ form.document_size.name }}">
+          <option value="" data-select2-id="2">Select</option>
+          {% for size, display in form.document_size.field.choices %}
+            <option value="{{ size }}">{{ display }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Schedule Submission Date -->
+      <div class="col-md-6">
+        <label class="form-label" for="schedule_submission_date">Schedule Submission Date</label>
+        <input type="text" id="schedule_submission_date" class="form-control date-picker flatpickr-input" placeholder="YYYY-MM-DD" name="{{ form.schedule_submission_date.name }}">
+      </div>
+
+      <!-- ROS Engineer -->
+      <div class="col-md-6">
+        <label class="form-label" for="ros_engineer">ROS Engineer</label>
+        <select id="ros_engineer" class="form-select" name="{{ form.ros_engineer.name }}">
+          <option value="" data-select2-id="2">Select</option>
+          {% for engineer in engineers %}
+            <option value="{{ engineer.id }}">{{ engineer.first_name }} {{ engineer.last_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Doc Revision Number -->
+      <div class="col-md-6">
+        <label class="form-label" for="doc_revision_no">Document Revision Number</label>
+        <input type="text" id="doc_revision_no" class="form-control" name="{{ form.doc_revision_no.name }}" placeholder="Enter Document Revision Number">
+      </div>
+
+      <!-- Document Code -->
+      <div class="col-md-6">
+        <label class="form-label" for="document_code">Document Code</label>
+        <input type="text" id="document_code" class="form-control" name="{{ form.document_code.name }}" placeholder="Enter Document Code">
+      </div>
+
+      <!-- Planned Date -->
+      <div class="col-md-6">
+        <label class="form-label" for="planned_date">Planned Date</label>
+        <input type="text" id="planned_date" class="form-control date-picker flatpickr-input" placeholder="YYYY-MM-DD" name="{{ form.planned_date.name }}">
+      </div>
+
+      <!-- Forecast Date -->
+      <div class="col-md-6">
+        <label class="form-label" for="forecast_date">Forecast Date</label>
+        <input type="text" id="forecast_date" class="form-control date-picker flatpickr-input" placeholder="YYYY-MM-DD" name="{{ form.forecast_date.name }}">
+      </div>
+
+      <!-- Actual Submission Date -->
+      <div class="col-md-6">
+        <label class="form-label" for="actual_submission_date">Actual Submission Date</label>
+        <input type="text" id="actual_submission_date" class="form-control date-picker flatpickr-input" placeholder="YYYY-MM-DD" name="{{ form.actual_submission_date.name }}">
+      </div>
+
+      <!-- ROS Transmittal Number -->
+      <div class="col-md-6">
+        <label class="form-label" for="ros_transmittal_no">ROS Transmittal Number</label>
+        <input type="text" id="ros_transmittal_no" class="form-control" name="{{ form.ros_transmittal_no.name }}" placeholder="Enter ROS Transmittal Number">
+      </div>
+
+      <!-- Document Due Date -->
+      <div class="col-md-6">
+        <label class="form-label" for="doc_duedate">Document Due Date</label>
+        <input type="text" id="doc_duedate" class="form-control date-picker flatpickr-input" placeholder="YYYY-MM-DD" name="{{ form.doc_duedate.name }}">
+      </div>
+
+      <!-- Document Returned Date -->
+      <div class="col-md-6">
+        <label class="form-label" for="doc_returned_date">Document Returned Date</label>
+        <input type="text" id="doc_returned_date" class="form-control date-picker flatpickr-input" placeholder="YYYY-MM-DD" name="{{ form.doc_returned_date.name }}">
+      </div>
+
+      <!-- Document Return Code -->
+      <div class="col-md-6">
+        <label class="form-label" for="doc_return_code">Document Return Code</label>
+        <input type="text" id="doc_return_code" class="form-control" name="{{ form.doc_return_code.name }}" placeholder="Enter Document Return Code">
+      </div>
+
+      <!-- Planned Return Date -->
+      <div class="col-md-6">
+        <label class="form-label" for="planned_return_date">Planned Return Date</label>
+        <input type="text" id="planned_return_date" class="form-control date-picker flatpickr-input" placeholder="YYYY-MM-DD" name="{{ form.planned_return_date.name }}">
+      </div>
+
+      <!-- Actual Return Date -->
+      <div class="col-md-6">
+        <label class="form-label" for="actual_return_date">Actual Return Date</label>
+        <input type="text" id="actual_return_date" class="form-control date-picker flatpickr-input" placeholder="YYYY-MM-DD" name="{{ form.actual_return_date.name }}">
+      </div>
+
+      <!-- Approval Code -->
+      <div class="col-md-6">
+        <label class="form-label" for="approval_code">Approval Code</label>
+        <input type="text" id="approval_code" class="form-control" name="{{ form.approval_code.name }}" placeholder="Enter Approval Code">
+      </div>
+
+      <!-- Transmittal Number -->
+      <div class="col-md-6">
+        <label class="form-label" for="trasmittal_no">Transmittal Number</label>
+        <input type="text" id="trasmittal_no" class="form-control" name="{{ form.trasmittal_no.name }}" placeholder="Enter Transmittal Number">
+      </div>
+
+    </div>
+
+    <div class="pt-4">
+      <button type="submit" class="btn btn-primary me-sm-3 me-1 waves-effect waves-light">Submit</button>
+      <button type="reset" class="btn btn-label-secondary waves-effect">Cancel</button>
+    </div>
+
+  </form>
+</div>
+{% endblock body_content %}
+
+{% block js %}
+<script>
+  window.onload = function(){
+
+    // Initialize date fields
+    document.querySelectorAll('.date-picker').forEach(function(e) {
+      e.flatpickr({
+          monthSelectorType: "static"
+      })
+    })
+
+  }
+</script>
+{% endblock js %}

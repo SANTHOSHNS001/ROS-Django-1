@@ -17,4 +17,6 @@ urlpatterns = [
     path('document_title/', views.document_title, name='document_title'),
     path('project_view/', views.project_view, name='project_view'),
     path('create_project/', views.create_project_view, name='create_project'),
+    path('create_vdml_document/', views.create_vdml_view, name='create_vdml_document'),
+    path('vdml_view/', views.vdml_view, name='vdml_view'),
 ]

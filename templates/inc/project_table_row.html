@@ -1,0 +1,36 @@
+<tr>
+  <td><span class="text-nowrap">{{ project.project_name }}</span></td>
+  <td>
+    <span class="text-nowrap">{{ project.duration }} Day(s)</span>
+  </td>
+  <td>
+    <span class="text-nowrap">
+      
+      {%for manager in project.project_manager.all %}
+      
+      <span class="badge bg-label-primary m-1">{{ manager.username}}</span>
+      
+      {% endfor %}
+  
+    </span>
+  </td>
+  <td>
+    <span class="text-nowrap">
+      {% for manager in project.document_manager.all %}
+            <span class="badge bg-label-primary m-1">{{ manager.username }}</span>
+            {% endfor %}
+    </span>
+  </td>
+
+  <td>
+    <span class="text-nowrap">
+      <button class="btn btn-sm btn-icon me-2" data-bs-target="#editPermissionModal" data-bs-toggle="modal"
+        data-bs-dismiss="modal">
+        <i class="ti ti-edit"></i>
+      </button>
+      <button class="btn btn-sm btn-icon delete-record">
+        <i class="ti ti-trash"></i>
+      </button>
+    </span>
+  </td>
+</tr>

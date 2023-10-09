@@ -5,10 +5,11 @@ import logging
 from django.db.models import Count
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-
-from ros_app.forms import ProjectForm
-
+from ros_app.forms import *
 from .models import *
+from .view_helper import *
+
+from .decorators import login_required, user_has_role, user_has_permission
 
 
 # Set up logging
@@ -41,9 +42,10 @@ def user_login(request):
 
     return render(request, "pages/login.html")
 
-
+@login_required
 def home(request):
     if request.user.is_authenticated:
+        print(f"User Role: {request.user.role}")
         logger.info(f"The user {request.user} accessed the dashboard.")
         return render(request, "pages/home.html", {"user": request.user})
     else:
@@ -54,57 +56,74 @@ def user_logout(request):
     logout(request)
     return redirect("login")
 
-
+@login_required
+# @user_has_permission('read_roles')
+@user_has_role('Super Admin','Admin')
 def roles(request):
     if request.user.is_authenticated:
         roles = CustomRoles.objects.all()
         permissions = CustomPermissions.objects.all()
+        form = CreateRoleForm(request.POST)
         return render(
             request,
             "pages/roles.html",
-            {"user": request.user, "roles": roles, "permissions": permissions},
+            {"user": request.user, "roles": roles, "permissions": permissions, "form": form},
         )
     else:
         return redirect("login")
 
-
+@user_has_role('Super Admin','Admin')
 def create_role_view(request):
     if not request.user.is_authenticated or not request.user.is_superuser:
         return redirect("home")
 
     if request.method == "POST":
-        role_name = request.POST.get("modalRoleName")
+        form = CreateRoleForm(request.POST)
+        print(f"User initiated role creation: {request.POST}")
+        
+        if form.is_valid():
+            role_name = form.cleaned_data.get("modalRoleName")
 
-        # Check if role exists
-        if not role_name:
-            messages.error(request, "Role name cannot be empty.")
-            return redirect("roles")
-        elif CustomRoles.objects.filter(name=role_name).exists():
-            messages.error(request, "Role already exists.")
-            return redirect("roles")
+            # Check if role already exists
+            if CustomRoles.objects.filter(name=role_name).exists():
+                messages.error(request, "Role already exists.")
+            else:
+                # Save the role with its permissions
+                role = form.save(commit=False)  # Create the role instance but don't save it yet
+                role.name = role_name  # Ensure we set the correct name field
+                role.save()
+
+                # Handle permissions
+                all_permissions = form.cleaned_data.get("permission")
+                for permission in all_permissions:
+                    selected_actions = request.POST.getlist(f'permission_{permission.name.lower()}')
+                    can_read = 'read' in selected_actions
+                    can_edit = 'edit' in selected_actions
+                    can_create = 'create' in selected_actions
+                    can_delete = 'delete' in selected_actions
+
+                    # Create or update RolePermissionAssociation
+                    role_permission, created = RolePermissionAssociation.objects.get_or_create(role=role, permission=permission)
+                    role_permission.can_read = can_read
+                    role_permission.can_edit = can_edit
+                    role_permission.can_write = can_create
+                    role_permission.can_delete = can_delete
+                    role_permission.save()
+
+                messages.success(request, "Role created successfully.")
+                return redirect("roles")
         else:
-            # Create the role first
-            role = CustomRoles.objects.create(name=role_name)
-            checkbox_names = [name for name in request.POST.keys()]
-            print(checkbox_names)
-            # Gather selected permissions and assign to the role
-            for permission in CustomPermissions.objects.all():
-                # Construct the expected checkbox name for each action
-                for action in ["Read", "Write", "Create"]:
-                    checkbox_name = f"permission-{permission.id}-{action}"
-                    print(f"Checkbox name: {checkbox_name}")
-                    if request.POST.get(checkbox_name):
-                        print(
-                            f"Adding permission: {permission.name} with action: {action}"
-                        )
-                        role.permission.add(permission)
-
-            messages.success(request, "Role created successfully.")
-            return redirect("roles")
+            for field in form:
+                print(field.label)
+                print(field.value())
+                print(field.errors)
+                print('-----------------')
+            messages.error(request, "There was an error creating the role. Please check the provided data.")
 
     return redirect("roles")
 
 
+@user_has_role('Super Admin','Admin')
 def permissions_view(request):
     if request.user.is_authenticated:
         permissions = CustomPermissions.objects.all().prefetch_related(
@@ -126,30 +145,33 @@ def permissions_view(request):
     else:
         return redirect("login")
 
-
 @login_required
+@user_has_role('Super Admin','Admin')
 def create_permission_view(request):
-    # Check if the user is a Super Admin or Admin
-    if request.user.role not in ["Super Admin", "Admin"]:
-        messages.error(request, "You do not have permission to create permissions.")
-        return redirect("home")  # Redirect to the homepage or an appropriate URL
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        return redirect("home")
 
     if request.method == "POST":
-        # Get form data
-        name = request.POST.get("name")
-        description = request.POST.get("description")
+        print("User initiated permission creation")
+        permission_name = request.POST.get("modalPermissionName")
+        is_core = request.POST.get("corePermission") == "on"
+        print(f"User initiated permission creation: {permission_name}")
 
-        # Create the new permission
-        new_permission = CustomPermissions(name=name, description=description)
-        new_permission.save()
+        # Check if permission exists
+        if CustomPermissions.objects.filter(name=permission_name).exists():
+            messages.error(request, "Permission already exists.")
+            return redirect("create_permission")
+        else:
+            # Create the permission
+            new_permission = CustomPermissions.objects.create(name=permission_name)
+            print(f"Permission created successfully: {new_permission.name}")
 
-        messages.success(request, f"Permission '{name}' created successfully!")
-        return redirect("create_permission")
+            messages.success(request, "Permission created successfully.")
+            return redirect("create_permission")
 
-    return render(request, "create_permission.html")
+    return redirect("permissions")
 
-
-@login_required
+# @user_has_role('Super Admin','Admin')
 def users_view(request):
     if request.user.is_authenticated:
         users = CustomUser.objects.all()
@@ -195,7 +217,7 @@ def delete_permission(request, permission_id):
         return redirect("permissions")
     return render(request, "pages/confirm_delete.html", {"object": "Permission"})
 
-
+@user_has_role('Super Admin','Admin')
 def add_user_view(request):
     if not request.user.is_authenticated or not request.user.is_superuser:
         return redirect("home")
@@ -313,10 +335,55 @@ def document_title(request):
     else:
         return redirect("login")
 
+def vdml_view(request):
+    if request.user.is_authenticated:
+            # Get VDML documents assigned to the logged-in user
+        if request.user.role.name in ['Super Admin','Admin']:
+            assigned_vdml_documents = VDML_Document.objects.all()
+        else:
+            assigned_vdml_documents = VDML_Document.objects.filter(ros_engineer=request.user)
+        context = {
+            "vdml_documents": assigned_vdml_documents,
+        }
+        print(f"Assigned VDML Documents: {assigned_vdml_documents}")
+        return render(request, "pages/vdml_view.html", context)
+    else:
+        return redirect("login")
+
+
 
 def project_view(request):
+    
     if request.user.is_authenticated:
-        return render(request, "pages/project_view.html")
+        print(f"User role: {request.user.role.name}")
+        if request.user.role.name  in ['Super Admin','Admin']:
+            
+            projects = Projects.objects.all()
+            print(f"Projects: {projects}")
+            
+            for project in projects:
+                print(f"Project: {project}")
+                print(f"Project manager: {project.project_manager.all()}")
+                print(f"Document manager: {project.document_manager.all()}")
+                print(f"Project users: {project.users.all()}")
+        
+
+            context = {
+                "projects": projects,
+            }
+            return render(request, "pages/project_view.html", context)
+        else:
+            managed_projects = Projects.objects.filter(project_manager=request.user)
+            managed_documents = Projects.objects.filter(document_manager=request.user)
+            assigned_projects = set(managed_projects) | set(managed_documents)
+            #Filter the projects assigned to the user
+            print(f'The user {request.user} has the following projects assigned: {assigned_projects}')
+            print(f"Assigned Projects: {assigned_projects}")
+            context = {
+                "projects": assigned_projects,
+            }
+            return render(request, "pages/project_view.html", context)
+
     else:
         return redirect("login")
 
@@ -324,7 +391,17 @@ def project_view(request):
 
 
 @login_required
+# @user_has_role('Super Admin','Admin','Project Manager',)
 def create_project_view(request):
+    # Get the user's role
+    user_role = request.user.role
+
+    # If the user has a role, fetch its permissions and actions
+    if user_role:
+        permissions_associations = RolePermissionAssociation.objects.filter(role=user_role)
+    else:
+        permissions_associations = []
+    print(f'Permissions associations: {permissions_associations}')
     if request.method == 'POST':
         form = ProjectForm(request.POST)
         print(f'Selected project manager: {request.POST.get("project_manager")}')
@@ -360,3 +437,27 @@ def create_project_view(request):
     }
     
     return render(request, 'pages/create_project.html', context)
+
+
+def create_vdml_view(request):
+    form = VDMLDocumentForm()
+
+    if request.user.is_authenticated:
+        engineers = CustomUser.objects.filter(role__name="Engineer")
+        if request.method == "POST":
+            # Get user input from the request
+            form = VDMLDocumentForm(request.POST)
+            print(f"User initiated VDML creation: {request.POST}")
+            if form.is_valid():
+                form.save()
+                messages.success(request, "VDML created successfully!")
+                return redirect("vdml_view")
+            for field in form:
+                print(field.label)
+                print(field.value())
+                print(field.errors)
+                print('-----------------')
+            
+    else:
+        return redirect("login")
+    return render(request, "pages/create_document.html", {"form": form, "engineers": engineers})
