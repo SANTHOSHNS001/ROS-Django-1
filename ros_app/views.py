@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from ros_app.forms import *
 from .models import *
 from .view_helper import *
+from django.forms import modelformset_factory
 
 from .decorators import login_required, user_has_role, user_has_permission
 
@@ -341,7 +342,7 @@ def vdml_view(request):
         if request.user.role.name in ['Super Admin','Admin']:
             assigned_vdml_documents = VDML_Document.objects.all()
         else:
-            assigned_vdml_documents = VDML_Document.objects.filter(ros_engineer=request.user)
+            assigned_vdml_documents = request.user.vdml_documents.all()
         context = {
             "vdml_documents": assigned_vdml_documents,
         }
@@ -363,8 +364,7 @@ def project_view(request):
             
             for project in projects:
                 print(f"Project: {project}")
-                print(f"Project manager: {project.project_manager.all()}")
-                print(f"Document manager: {project.document_manager.all()}")
+ 
                 print(f"Project users: {project.users.all()}")
         
 
@@ -439,25 +439,78 @@ def create_project_view(request):
     return render(request, 'pages/create_project.html', context)
 
 
+# def create_vdml_view(request):
+#     form = VDMLDocumentForm()
+
+#     if request.user.is_authenticated:
+#         engineers = CustomUser.objects.filter(role__name="Engineer")
+#         if request.method == "POST":
+#             # Get user input from the request
+#             form = VDMLDocumentForm(request.POST)
+#             print(f"User initiated VDML creation: {request.POST}")
+#             if form.is_valid():
+#                 form.save()
+#                 messages.success(request, "VDML created successfully!")
+#                 return redirect("vdml_view")
+#             for field in form:
+#                 print(field.label)
+#                 print(field.value())
+#                 print(field.errors)
+#                 print('-----------------')
+            
+#     else:
+#         return redirect("login")
+#     return render(request, "pages/create_document.html", {"form": form, "engineers": engineers})
+
+
 def create_vdml_view(request):
-    form = VDMLDocumentForm()
+    # Define the formset for VDMLDocumentDetail
+    VDMLDocumentDetailFormSet = modelformset_factory(VDMLDocumentDetail, form=VDMLDocumentDetailForm, extra=1)
 
     if request.user.is_authenticated:
         engineers = CustomUser.objects.filter(role__name="Engineer")
         if request.method == "POST":
-            # Get user input from the request
             form = VDMLDocumentForm(request.POST)
-            print(f"User initiated VDML creation: {request.POST}")
-            if form.is_valid():
-                form.save()
+            detail_formset = VDMLDocumentDetailFormSet(request.POST, prefix='details')
+
+            if form.is_valid() and detail_formset.is_valid():
+                # Save the main VDML Document
+                vdml_doc = form.save()
+
+                # Save each detail form
+                for detail_form in detail_formset:
+                    detail = detail_form.save(commit=False)
+                    detail.vdml_document = vdml_doc
+                    detail.save()
+
                 messages.success(request, "VDML created successfully!")
                 return redirect("vdml_view")
-            for field in form:
-                print(field.label)
-                print(field.value())
-                print(field.errors)
-                print('-----------------')
             
+            # Error handling and debugging
+            for field in form:
+                if field.errors:
+                    print(field.label)
+                    print(field.value())
+                    print(field.errors)
+                    print('-----------------')
+            for detail_form in detail_formset:
+                for field in detail_form:
+                    if field.errors:
+                        print(field.label)
+                        print(field.value())
+                        print(field.errors)
+                        print('-----------------')
+        else:
+            form = VDMLDocumentForm()
+            detail_formset = VDMLDocumentDetailFormSet(queryset=VDMLDocumentDetail.objects.none(), prefix='details')
+
     else:
         return redirect("login")
-    return render(request, "pages/create_document.html", {"form": form, "engineers": engineers})
+    
+    context = {
+        "form": form,
+        "detail_formset": detail_formset,
+        "engineers": engineers
+    }
+    return render(request, "pages/create_vdml_doc.html", context)
+

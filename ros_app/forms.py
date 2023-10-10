@@ -40,14 +40,14 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Projects
         fields = [
-            'project_name', 'description', 'start_date', 'end_date', 'project_manager', 
-            'document_manager', 'client_name', 'cpm_name', 'cpm_email', 'cpm_phone',
+            'project_name', 'description', 'start_date', 'end_date', 'project_managers', 
+            'document_managers', 'client_name', 'cpm_name', 'cpm_email', 'cpm_phone',
             'cdm_name', 'cdm_email', 'cdm_phone'
         ]
 
         widgets = {
-            'project_manager': forms.SelectMultiple(attrs={'type': 'text'}),
-            'document_manager': forms.SelectMultiple(attrs={'type': 'text'}),
+            'project_managers': forms.SelectMultiple(attrs={'type': 'text'}),
+            'document_managers': forms.SelectMultiple(attrs={'type': 'text'}),
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),
             'cpm_phone': forms.TextInput(attrs={'type': 'tel'}),
@@ -140,37 +140,83 @@ class CustomUserEditForm(forms.ModelForm):
         return user
     
 
+# class VDMLDocumentForm(forms.ModelForm):
+#     class Meta:
+#         model = VDML_Document
+#         fields = [
+#             'customer_doc_no', 'ros_doc_no', 'document_title', 'document_type', 
+#             'document_size', 'schedule_submission_date', 'ros_engineer', 
+#             'doc_revision_no', 'document_code', 'planned_date', 'forecast_date', 
+#             'actual_submission_date', 'ros_transmittal_no', 'doc_duedate', 
+#             'doc_returned_date', 'doc_return_code', 'planned_return_date', 
+#             'actual_return_date', 'approval_code', 'trasmittal_no'
+#         ]
+
+#         widgets = {
+#             'schedule_submission_date': forms.DateInput(attrs={'type': 'date'}),
+#             'planned_date': forms.DateInput(attrs={'type': 'date'}),
+#             'forecast_date': forms.DateInput(attrs={'type': 'date'}),
+#             'actual_submission_date': forms.DateInput(attrs={'type': 'date'}),
+#             'doc_duedate': forms.DateInput(attrs={'type': 'date'}),
+#             'doc_returned_date': forms.DateInput(attrs={'type': 'date'}),
+#             'planned_return_date': forms.DateInput(attrs={'type': 'date'}),
+#             'actual_return_date': forms.DateInput(attrs={'type': 'date'}),
+#             'customer_doc_no': forms.TextInput(attrs={'type': 'text'}),
+#             'ros_doc_no': forms.TextInput(attrs={'type': 'text'}),
+#             'document_title': forms.TextInput(attrs={'type': 'text'}),
+#             'document_type': forms.TextInput(attrs={'type': 'text'}),
+#             'document_size': forms.Select(choices=VDML_Document.DOCUMENT_SIZES),
+#             'ros_engineer': forms.SelectMultiple(attrs={'type': 'text'}),
+#             'doc_revision_no': forms.TextInput(attrs={'type': 'text'}),
+#             'document_code': forms.TextInput(attrs={'type': 'text'}),
+#             'ros_transmittal_no': forms.TextInput(attrs={'type': 'text'}),
+#             'doc_return_code': forms.TextInput(attrs={'type': 'text'}),
+#             'approval_code': forms.TextInput(attrs={'type': 'text'}),
+#             'trasmittal_no': forms.TextInput(attrs={'type': 'text'}),
+#         }
+
+
 class VDMLDocumentForm(forms.ModelForm):
     class Meta:
         model = VDML_Document
         fields = [
-            'customer_doc_no', 'ros_doc_no', 'document_title', 'document_type', 
-            'document_size', 'schedule_submission_date', 'ros_engineer', 
-            'doc_revision_no', 'document_code', 'planned_date', 'forecast_date', 
-            'actual_submission_date', 'ros_transmittal_no', 'doc_duedate', 
-            'doc_returned_date', 'doc_return_code', 'planned_return_date', 
-            'actual_return_date', 'approval_code', 'trasmittal_no'
+            'customer_doc_no', 'ros_doc_no', 'document_title', 'document_type', 'document_size'
         ]
-
         widgets = {
-            'schedule_submission_date': forms.DateInput(attrs={'type': 'date'}),
-            'planned_date': forms.DateInput(attrs={'type': 'date'}),
-            'forecast_date': forms.DateInput(attrs={'type': 'date'}),
-            'actual_submission_date': forms.DateInput(attrs={'type': 'date'}),
-            'doc_duedate': forms.DateInput(attrs={'type': 'date'}),
-            'doc_returned_date': forms.DateInput(attrs={'type': 'date'}),
-            'planned_return_date': forms.DateInput(attrs={'type': 'date'}),
-            'actual_return_date': forms.DateInput(attrs={'type': 'date'}),
             'customer_doc_no': forms.TextInput(attrs={'type': 'text'}),
             'ros_doc_no': forms.TextInput(attrs={'type': 'text'}),
             'document_title': forms.TextInput(attrs={'type': 'text'}),
             'document_type': forms.TextInput(attrs={'type': 'text'}),
             'document_size': forms.Select(choices=VDML_Document.DOCUMENT_SIZES),
+        }
+
+
+class VDMLDocumentDetailForm(forms.ModelForm):
+    class Meta:
+        model = VDMLDocumentDetail
+        fields = [
+            'ros_engineer', 'doc_revision_no', 
+            'document_code', 'planned_date', 'forecast_date', 'actual_submission_date', 
+            'ros_transmittal_no', 'doc_duedate', 'doc_returned_date', 'doc_return_code', 
+            'planned_return_date', 'actual_return_date','planned_return_date1', 'actual_return_date1', 'approval_code', 'client_trasmittal_no',
+        ]
+        widgets = {
+            'planned_date': forms.DateInput(attrs={'type': 'date'}),
+            'forecast_date': forms.DateInput(attrs={'type': 'date'}),
+            'actual_submission_date': forms.DateInput(attrs={'type': 'date'}),
+            'doc_duedate': forms.TextInput(attrs={'type': 'text'}),
+            'doc_returned_date': forms.DateInput(attrs={'type': 'date'}),
+            'planned_return_date': forms.DateInput(attrs={'type': 'date'}),
+            'actual_return_date': forms.DateInput(attrs={'type': 'date'}),
+            'planned_return_date1': forms.DateInput(attrs={'type': 'date'}),
+            'actual_return_date1': forms.DateInput(attrs={'type': 'date'}),
             'ros_engineer': forms.SelectMultiple(attrs={'type': 'text'}),
             'doc_revision_no': forms.TextInput(attrs={'type': 'text'}),
             'document_code': forms.TextInput(attrs={'type': 'text'}),
             'ros_transmittal_no': forms.TextInput(attrs={'type': 'text'}),
             'doc_return_code': forms.TextInput(attrs={'type': 'text'}),
             'approval_code': forms.TextInput(attrs={'type': 'text'}),
-            'trasmittal_no': forms.TextInput(attrs={'type': 'text'}),
+            'client_trasmittal_no': forms.TextInput(attrs={'type': 'text'}),
+            'se_comment': forms.TextInput(attrs={'type': 'text'}),
+            'bling_comment': forms.TextInput(attrs={'type': 'text'}),
         }

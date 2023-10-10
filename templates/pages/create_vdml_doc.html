@@ -1,0 +1,210 @@
+{% extends "layout/container.html" %}
+{% block title %}
+| New VDML Document
+{% endblock title %}
+{% block style %}
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+{% endblock style %}
+{% block body_content %}
+<br>
+
+<!-- Multi Column with Form Separator -->
+<form class="card mb-6 repeater">
+    <h5 class="card-header">Basic Details</h5>
+    <div class="card-body " data-repeater-list="group-a">
+        <!--Document Details-->
+        <div class="row g-3">
+            <!-- Customer Document Number -->
+            <div class="col-md-4">
+                <label class="form-label" for="customer_doc_no">Customer Document Number</label>
+                <input type="text" id="customer_doc_no" class="form-control" name="{{ form.customer_doc_no.name }}"
+                    placeholder="Enter Customer Document Number">
+            </div>
+
+            <!-- ROS Document Number -->
+            <div class="col-md-4">
+                <label class="form-label" for="ros_doc_no">ROS Document Number</label>
+                <input type="text" id="ros_doc_no" class="form-control" name="{{ form.ros_doc_no.name }}"
+                    placeholder="Enter ROS Document Number">
+            </div>
+
+            <!-- Document Title -->
+            <div class="col-md-4">
+                <label class="form-label" for="document_title">Document Title</label>
+                <input type="text" id="document_title" class="form-control" name="{{ form.document_title.name }}"
+                    placeholder="Enter Document Title">
+            </div>
+
+            <!-- Document Type -->
+            <div class="col-md-4">
+                <label class="form-label" for="document_type">Document Type</label>
+                <input type="text" id="document_type" class="form-control" name="{{ form.document_type.name }}"
+                    placeholder="Enter Document Type">
+            </div>
+
+            <!-- Document Size -->
+            <div class="col-md-4">
+                <label class="form-label" for="document_size">Document Size</label>
+                <select id="document_size" class="form-select" name="{{ form.document_size.name }}">
+                    <option value="" data-select2-id="2">Select</option>
+                    {% for size, display in form.document_size.field.choices %}
+                    <option value="{{ size }}">{{ display }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <hr>
+
+            <div class="row g-3" data-repeater-item>
+                <h6>ROS STANDARD VDML</h6>
+                <!-- ROS Engineer -->
+                <div class="col-md-3">
+                    <label class="form-label" for="ros_engineer">ROS Engineer</label>
+                    <select id="ros_engineer" class="form-select" name="{{ detail_formset.ros_engineer.name }}">
+                        <option value="" data-select2-id="2">Select</option>
+                        {% for engineer in engineers %}
+                        <option value="{{ engineer.id }}">{{ engineer.first_name }} {{ engineer.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label" for="doc_rev">Doc. Rev No.</label>
+                    <input type="text" id="doc_rev" class="form-control" placeholder="DOC. REV" name="{{ detail_formset.doc_revision_no.name }}" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="issue_code">Issue of Code</label>
+                    <select class="form-select item-details mb-3" id="issue_code" data-allow-clear="true" name="{{ detail_formset.document_code.name }}">
+                        <option value="">Select</option>
+                        <option value="IFC">IFC</option>
+                        <option value="AFC">AFC</option>
+                    </select>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-1">
+                    <div class="d-flex flex-column align-items-center justify-content-between border-start p-2">
+                        <i class="ti ti-x cursor-pointer" data-repeater-delete=""></i>
+                    </div>
+                </div>
+                <h6>ROS SUBMISISON RECORD</h6>
+                <div class="col-md-3">
+                    <label class="form-label" for="planned_date">Planned Date</label>
+                    <input type="text" class="form-control dob-picker" id ="planned_date" placeholder="YYYY-MM-DD"  name="{{ detail_formset.planned_date.name }}"/>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="multicol-birthdate">Forecast Date</label>
+                    <input type="text" class="form-control dob-picker" placeholder="YYYY-MM-DD" name="{{ detail_formset.forecast_date.name }}"/>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="multicol-birthdate">Actual Date</label>
+                    <input type="text" class="form-control dob-picker" placeholder="YYYY-MM-DD" name="{{ detail_formset.actual_submission_date.name }}"/>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="multicol-birthdate">ROS Transmital No.</label>
+                    <input type="text" class="form-control" placeholder="ROS Transmital Number" name="{{ detail_formset.ros_transmital_number.name }}"/>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="due_days">Due Days</label>
+                    <input type="text" class="form-control" placeholder="Due Days" name="{{ detail_formset.doc_duedate.name }}" />
+                    </div>
+                <div class="col-md-4"></div>
+                <h6>CLIENT RETURN RECORD</h6>
+                <div class="col-md-3">
+                    <label class="form-label" for="multicol-birthdate">Approval Rev.</label>
+                    <input type="text" class="form-control" placeholder="Approval Rev"  name="{{ detail_formset.approval_code.name }}"/>
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label" for="multicol-birthdate">Planned Returned Date</label>
+                    <input type="text" class="form-control dob-picker" placeholder="YYYY-MM-DD" name="{{ detail_formset.planned_return_date.name }}" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="multicol-birthdate">Actual Returned Date</label>
+                    <input type="text" class="form-control dob-picker" placeholder="YYYY-MM-DD"  name="{{ detail_formset.actual_return_date.name }}"/>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="multicol-birthdate">SE Comment</label>
+                    <select class="form-select item-details mb-3" data-allow-clear="true" name="{{ detail_formset.se_comment.name }}">
+                        <option value="">Select</option>
+                        <option value="SE ACCEPTED">SE ACCEPTED</option>
+                        <option value="SE REVISED">SE REVISED</option>
+                    </select>
+                </div>
+                <hr>
+                <div class="col-md-3">
+                    <label class="form-label" for="multicol-birthdate">PLANNED RETURNED DATE</label>
+                    <input type="text" class="form-control dob-picker" placeholder="YYYY-MM-DD"  name="{{ detail_formset.planned_return_date1.name }}"/>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="multicol-birthdate">ACTUAL RETURNED DATE</label>
+                    <input type="text" class="form-control dob-picker" placeholder="YYYY-MM-DD"  name="{{ detail_formset.actual_return_date1.name }}" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="multicol-birthdate">CLIENT TRANSMITTAL</label>
+                    <input type="text" class="form-control" placeholder="CLIENT TRANSMITTAL"  name="{{ detail_formset.client_trasmittal_no.name }}" />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label" for="multicol-birthdate">BLNG Comment</label>
+                    <input type="text" class="form-control" placeholder="BLNG Comment"
+                        aria-describedby="floatingInputHelp"  name="{{ detail_formset.bling_comment.name }}">
+                </div>
+
+            </div>
+            <hr>
+        </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+              <div class="col-12">
+                <button type="button" class="btn btn-primary waves-effect waves-light" data-repeater-create="">Add Item</button>
+              </div>
+            </div>
+            
+            <div class="pt-4">
+              <button type="submit" class="btn btn-primary me-sm-3 me-1">Submit</button>
+              <button type="reset" class="btn btn-label-secondary">Cancel</button>
+            </div>
+          </div>
+        </div>
+</form>
+
+<!-- / Content -->
+
+</div>
+{% endblock body_content %}
+
+{% block js %}
+<script src="../static/assets/vendor/libs/jquery-repeater/jquery-repeater.js"></script>
+<script src="../static/assets/js/form-layouts.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.repeater').repeater({
+            initEmpty: false,
+            defaultValues: {},
+            show: function() {
+                $(this).slideDown();
+                $('.dob-picker').flatpickr({
+                    monthSelectorType: "static"
+                })
+            },
+            hide: function(deleteElement) {
+                if (confirm('Are you sure you want to delete this element?')) {
+                    $(this).slideUp(deleteElement);
+                }
+            },
+            ready: function(setIndexes) {},
+            isFirstItemUndeletable: true
+        })
+    });
+</script>
+<script>
+    window.onload = function() {
+        // Initialize date fields
+        document.querySelectorAll('.date-picker').forEach(function(e) {
+            e.flatpickr({
+                monthSelectorType: "static"
+            })
+        })
+    }
+</script>
+
+{% endblock js %}
