@@ -6,7 +6,7 @@
   <td>
     <span class="text-nowrap">
       
-      {%for manager in project.project_manager.all %}
+      {%for manager in project.project_managers.all %}
       
       <span class="badge bg-label-primary m-1">{{ manager.username}}</span>
       
@@ -16,7 +16,7 @@
   </td>
   <td>
     <span class="text-nowrap">
-      {% for manager in project.document_manager.all %}
+      {% for manager in project.document_managers.all %}
             <span class="badge bg-label-primary m-1">{{ manager.username }}</span>
             {% endfor %}
     </span>

@@ -13,5 +13,8 @@
             "database": "ros_db",
             "username": "root"
         }
-    ]
+    ],
+    "emmet.includeLanguages": {
+        "django-html": "html"
+    }
 }

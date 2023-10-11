@@ -31,7 +31,7 @@
       </div>
       <div class="col-md-6">
         <label class="form-label" for="project_manager">Project Manager</label>
-        <select id="project_manager" class="form-select" name="{{ form.project_manager.name }}">
+        <select id="project_manager" class="form-select" name="{{ form.project_managers.name }}">
           <option  data-select2-id="2">Select</option>
           {% for manager in project_managers %}
             <option value="{{ manager.id }}">{{ manager.first_name }} {{ manager.last_name }}</option>
@@ -40,7 +40,7 @@
       </div>
       <div class="col-md-6">
         <label class="form-label" for="document_manager">Document Manager</label>
-        <select id="document_manager"  class="form-select" name="{{ form.document_manager.name }}">
+        <select id="document_manager"  class="form-select" name="{{ form.document_managers.name }}">
           <option  data-select2-id="2">Select</option>
           {% for manager in document_managers %}
           

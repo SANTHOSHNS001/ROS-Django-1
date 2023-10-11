@@ -105,26 +105,33 @@ class VDML_Document(models.Model):
     ros_doc_no = models.CharField(max_length=100, unique=True)
     document_title = models.CharField(max_length=100, unique=True)
     document_type = models.CharField(max_length=100)
-    document_size = models.CharField(max_length=100, choices=DOCUMENT_SIZES, default='A4')
+    document_size = models.CharField(max_length=100, choices=DOCUMENT_SIZES, default='A4') 
 
 
 class VDMLDocumentDetail(models.Model):
-    vdml_document = models.ForeignKey(VDML_Document, on_delete=models.CASCADE)
+    vdml_document = models.ForeignKey(VDML_Document, on_delete=models.CASCADE, null=False)
     ros_engineer = models.ManyToManyField(CustomUser, related_name="ros_engineer", blank=True)
-    doc_revision_no = models.CharField(max_length=100, unique=True, blank=True, null=True)
-    document_code = models.CharField(max_length=100, unique=True)
-    planned_date = models.DateTimeField(blank=True, null=True)
+    doc_revision_no = models.CharField(max_length=100, blank=True, null=True)
+    document_code = models.CharField(max_length=100)
+    planned_date = models.DateTimeField(blank=True, null=True,)
     forecast_date = models.DateTimeField(blank=True, null=True)
     actual_submission_date = models.DateTimeField(blank=True, null=True)
-    ros_transmittal_no = models.CharField(max_length=100, unique=True, blank=True, null=True)
+    ros_transmittal_no = models.CharField(max_length=100, blank=True, null=True)
     doc_duedate = models.CharField(max_length=100, blank=True, null=True)
     doc_returned_date = models.DateTimeField(blank=True, null=True)
-    doc_return_code = models.CharField(max_length=100, unique=True, blank=True, null=True)
+    doc_return_code = models.CharField(max_length=100, blank=True, null=True)
     planned_return_date = models.DateTimeField(blank=True, null=True)
     actual_return_date = models.DateTimeField(blank=True, null=True)
     se_comment = models.CharField(max_length=100, blank=True, null=True)
     planned_return_date1 = models.DateTimeField(blank=True, null=True)
     actual_return_date1 = models.DateTimeField(blank=True, null=True)
-    approval_code = models.CharField(max_length=100, unique=True)
-    client_trasmittal_no = models.CharField(max_length=100, unique=True)
-    bling_comment = models.CharField(max_length=100, unique=True)
+    approval_code = models.CharField(max_length=100,blank=True, null=True)
+    client_trasmittal_no = models.CharField(max_length=100,blank=True, null=True)
+    bling_comment = models.CharField(max_length=100,blank=True, null=True)
+
+
+
+
+
+
+ 

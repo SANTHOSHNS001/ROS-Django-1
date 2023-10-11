@@ -1,15 +1,18 @@
 <tr>
   <td><span class="text-nowrap">{{ doc.document_title }}</span></td>
   <td>
-    <span class="text-nowrap">{{ doc.duration }} Day(s)</span>
+    <span class="text-nowrap">{{ doc.customer_doc_no }}</span>
+  </td>
+  <td>
+    <span class="text-nowrap">{{ doc.ros_doc_no }}</span>
   </td>
 
-  <td>
+  {% comment %} <td>
     <span class="text-nowrap">
       
-      <span class="badge bg-label-primary m-1">{{ doc.ros_engineer}}</span>
+      <span class="badge bg-label-primary m-1">{{ doc.ros_doc_no}}</span>
     </span>
-  </td>
+  </td> {% endcomment %}
 
 
   <td>

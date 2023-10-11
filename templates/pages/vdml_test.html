@@ -57,7 +57,12 @@
                 </select>
             </div>
             <hr>
-            
+                    <!-- Render formset's management form -->
+        {{ formset.management_form }}
+
+                    <!-- Loop through formset forms and render them -->
+        {% for detail_form in formset %}
+
             <div class="row g-3" data-repeater-item>
                 <h6>ROS STANDARD VDML</h6>
                 <!-- ROS Engineer -->
@@ -154,6 +159,7 @@
 
             </div>
             <hr>
+            {% endfor %}
         </div>
         </div>
         <div class="card-body">
@@ -182,38 +188,52 @@
 <script src="../static/assets/js/form-layouts.js"></script>
 <script>
     $(document).ready(function () {
-          $('.repeater').repeater({
-  
-              initEmpty: false,
-              defaultValues: { },
-              show: function () {
-                  $(this).slideDown();
-                  $('.dob-picker').flatpickr({
-              monthSelectorType: "static"
-            })
-              },
-              hide: function (deleteElement) {
-                  if(confirm('Are you sure you want to delete this element?')) {
-                      $(this).slideUp(deleteElement);
-                  }
-              },
-  
-              ready: function (setIndexes) {
-              },
-              isFirstItemUndeletable: true
-          })
-      });
-  </script>
+        $('.repeater').repeater({
+            initEmpty: false,
+            defaultValues: {},
+            show: function () {
+                $(this).slideDown();
     
-<script>
-    window.onload = function() {
-        // Initialize date fields
-        document.querySelectorAll('.date-picker').forEach(function(e) {
-            e.flatpickr({
-                monthSelectorType: "static"
+                // Adjust the id and name attributes
+                var total = parseInt($('[name="detail-TOTAL_FORMS"]').val());
+                $(this).find(':input').each(function () {
+                    var name = $(this).attr('name').replace('__prefix__', total);
+                    var id = 'id_' + name;
+                    $(this).attr('name', name);
+                    $(this).attr('id', id);
+                });
+    
+                // Increase the count of total forms
+                $('[name="detail-TOTAL_FORMS"]').val(total + 1);
+    
+                // Initialize date pickers
+                $('.dob-picker').flatpickr({
+                    monthSelectorType: "static"
+                });
+            },
+            hide: function (deleteElement) {
+                if (confirm('Are you sure you want to delete this element?')) {
+                    var total = parseInt($('[name="detail-TOTAL_FORMS"]').val());
+                    $('[name="detail-TOTAL_FORMS"]').val(total - 1);
+                    $(this).slideUp(deleteElement);
+                }
+            },
+            ready: function (setIndexes) {},
+            isFirstItemUndeletable: true
+        });
+    });
+    </script>
+    
+    <script>
+        window.onload = function() {
+            // Initialize date fields
+            document.querySelectorAll('.date-picker').forEach(function(e) {
+                e.flatpickr({
+                    monthSelectorType: "static"
+                })
             })
-        })
-    }
-</script>
+        }
+    </script>
+    
 
 {% endblock js %}
