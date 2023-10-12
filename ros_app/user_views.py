@@ -26,10 +26,13 @@ def add_user_view(request):
         if form.is_valid():
             form.save()
             messages.success(request, "User created successfully!")
-            return redirect("users_view")
+            if request.user.role.name == "Super Admin":
+                return redirect("users")
+            else:
+                return redirect("home")
     else:
         form = CustomUserCreationForm()
-    return render(request, "pages/add_user.html", {"form": form})
+    return render(request, "pages/users.html", {"form": form})
 
 @login_required
 @user_has_role('Super Admin', 'Admin')
