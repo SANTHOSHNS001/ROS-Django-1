@@ -23,6 +23,7 @@ def create_role_view(request):
     if request.method == "POST":
         form = CreateRoleForm(request.POST)
         if form.is_valid():
+            print(form.cleaned_data)
             form.save()
             messages.success(request, "Role created successfully.")
             return redirect("roles")

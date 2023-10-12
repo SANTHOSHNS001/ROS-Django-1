@@ -88,7 +88,7 @@ class ProjectForm(forms.ModelForm):
         return cleaned_data
 
 class CreateRoleForm(forms.ModelForm):
-    modalRoleName = forms.CharField(max_length=100)
+    name = forms.CharField(max_length=100)
     permission = forms.ModelMultipleChoiceField(
         label='Role Permissions',
         queryset=CustomPermissions.objects.all(),
@@ -98,7 +98,7 @@ class CreateRoleForm(forms.ModelForm):
 
     class Meta:
         model = CustomRoles
-        fields = ['modalRoleName']
+        fields = ['name']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -111,11 +111,11 @@ class CreateRoleForm(forms.ModelForm):
         cleaned_data['permission'] = permissions
         return cleaned_data
 
-    def clean_modalRoleName(self):
-        modalRoleName = self.cleaned_data.get('modalRoleName')
-        if CustomRoles.objects.filter(name=modalRoleName).exists():
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if CustomRoles.objects.filter(name=name).exists():
             raise forms.ValidationError("A role with this name already exists.")
-        return modalRoleName
+        return name
     
 
 class VDMLDocumentForm(forms.ModelForm):
