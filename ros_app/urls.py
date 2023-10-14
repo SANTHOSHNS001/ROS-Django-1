@@ -22,6 +22,6 @@ urlpatterns = [
     path('document_title/', document_title, name='document_title'),
     path('project_view/', project_view, name='project_view'),
     path('create_project/', create_project_view, name='create_project'),
-    path('create_vdml_document/', create_vdml_view, name='create_vdml_document'),
+    path('create_vdml_document/', vdml_form_view, name='create_vdml_document'),
     path('vdml_view/', vdml_view, name='vdml_view'),
 ]

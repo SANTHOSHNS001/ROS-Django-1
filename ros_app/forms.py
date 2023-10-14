@@ -133,32 +133,32 @@ class VDMLDocumentForm(forms.ModelForm):
         }
 
 
-class VDMLDocumentDetailForm(forms.ModelForm):
-    class Meta:
-        model = VDMLDocumentDetail
-        fields = [
-            'ros_engineer', 'doc_revision_no', 
-            'document_code', 'planned_date', 'forecast_date', 'actual_submission_date', 
-            'ros_transmittal_no', 'doc_duedate', 'doc_returned_date', 'doc_return_code', 
-            'planned_return_date', 'actual_return_date','planned_return_date1', 'actual_return_date1', 'approval_code', 'client_trasmittal_no',
-        ]
-        widgets = {
-            'planned_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'placeholder': 'Select a date'}),
-            'forecast_date': forms.DateInput(attrs={'type': 'date'}),
-            'actual_submission_date': forms.DateInput(attrs={'type': 'date'}),
-            'doc_duedate': forms.TextInput(attrs={'type': 'date'}),
-            'doc_returned_date': forms.DateInput(attrs={'type': 'date'}),
-            'planned_return_date': forms.DateInput(attrs={'type': 'date'}),
-            'actual_return_date': forms.DateInput(attrs={'type': 'date'}),
-            'planned_return_date1': forms.DateInput(attrs={'type': 'date'}),
-            'actual_return_date1': forms.DateInput(attrs={'type': 'date'}),
-            'ros_engineer': forms.SelectMultiple(attrs={'type': 'text'}),
-            'doc_revision_no': forms.TextInput(attrs={'type': 'text'}),
-            'document_code': forms.TextInput(attrs={'type': 'text'}),
-            'ros_transmittal_no': forms.TextInput(attrs={'type': 'text'}),
-            'doc_return_code': forms.TextInput(attrs={'type': 'text'}),
-            'approval_code': forms.TextInput(attrs={'type': 'text'}),
-            'client_trasmittal_no': forms.TextInput(attrs={'type': 'text'}),
-            'se_comment': forms.TextInput(attrs={'type': 'text'}),
-            'bling_comment': forms.TextInput(attrs={'type': 'text'}),
-        }
+# class VDMLDocumentDetailForm(forms.ModelForm):
+#     class Meta:
+#         model = VDMLDocumentDetail
+#         fields = [
+#             'ros_engineer', 'doc_revision_no', 
+#             'document_code', 'planned_date', 'forecast_date', 'actual_submission_date', 
+#             'ros_transmittal_no', 'doc_duedate', 'doc_returned_date', 'doc_return_code', 
+#             'planned_return_date', 'actual_return_date','planned_return_date1', 'actual_return_date1', 'approval_code', 'client_trasmittal_no',
+#         ]
+#         widgets = {
+#             'planned_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control', 'placeholder': 'Select a date'}),
+#             'forecast_date': forms.DateInput(attrs={'type': 'date'}),
+#             'actual_submission_date': forms.DateInput(attrs={'type': 'date'}),
+#             'doc_duedate': forms.TextInput(attrs={'type': 'date'}),
+#             'doc_returned_date': forms.DateInput(attrs={'type': 'date'}),
+#             'planned_return_date': forms.DateInput(attrs={'type': 'date'}),
+#             'actual_return_date': forms.DateInput(attrs={'type': 'date'}),
+#             'planned_return_date1': forms.DateInput(attrs={'type': 'date'}),
+#             'actual_return_date1': forms.DateInput(attrs={'type': 'date'}),
+#             'ros_engineer': forms.SelectMultiple(attrs={'type': 'text'}),
+#             'doc_revision_no': forms.TextInput(attrs={'type': 'text'}),
+#             'document_code': forms.TextInput(attrs={'type': 'text'}),
+#             'ros_transmittal_no': forms.TextInput(attrs={'type': 'text'}),
+#             'doc_return_code': forms.TextInput(attrs={'type': 'text'}),
+#             'approval_code': forms.TextInput(attrs={'type': 'text'}),
+#             'client_trasmittal_no': forms.TextInput(attrs={'type': 'text'}),
+#             'se_comment': forms.TextInput(attrs={'type': 'text'}),
+#             'bling_comment': forms.TextInput(attrs={'type': 'text'}),
+#         }

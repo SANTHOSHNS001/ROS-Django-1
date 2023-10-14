@@ -41,7 +41,7 @@ def edit_user_view(request, user_id):
     if request.method == "POST":
         form = CustomUserEditForm(request.POST, instance=user_instance)
         if form.is_valid():
-            form.save()
+            form.save() 
             messages.success(request, "User updated successfully!")
             return redirect("users_view")
     else:
