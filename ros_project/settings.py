@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-teze*21&rid%^o%kaf^1e+l8xf%jn5#ehfjqf=bo$&c)k&-esd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", ".vercel.app"]
+ALLOWED_HOSTS = ["127.0.0.1", ".vercel.app","0.0.0.0"]
 
 
 # Application definition
@@ -100,7 +100,7 @@ DATABASES = {
         "NAME": "ros_db",
         "HOST": "localhost",
         "USER": "root",
-        "PASSWORD": "root",
+        "PASSWORD": "ss",
         "PORT": "3306",
     }
 }
