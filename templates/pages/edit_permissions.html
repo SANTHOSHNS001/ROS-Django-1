@@ -1,0 +1,56 @@
+<!-- pages/edit_permissions.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Permissions</title>
+</head>
+<body>
+    <h1>Edit Permissions</h1>
+    
+    <div>
+        <h2>Permission ID: {{ permissions.id }}</h2>
+        <h3>Permission Name: {{ permissions.name }}</h3>
+    </div>
+    
+    <div>
+        <h2>Available Actions:</h2>
+        <ul>
+            <li>
+                <a href="{% url 'read_action' permissions.id %}">Read</a>
+            </li>
+            <li>
+                <a href="{% url 'edit_action' permissions.id %}">Edit</a>
+            </li>
+            <li>
+                <a href="{% url 'create_action' permissions.id %}">Create</a>
+            </li>
+            <li>
+                <a href="{% url 'delete_action' permissions.id %}">Delete</a>
+            </li>
+        </ul>
+    </div>
+    
+    <div>
+        <h2>Roles with this Permission:</h2>
+        <ul>
+            {% for role in roles %}
+                <li>{{ role.name }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Conditionally show content based on permission ID -->
+    {% if permissions.id == 1 %}
+        <!-- HTML elements specific to permission ID 1 -->
+        <div>
+            <!-- Content for permission ID 1 -->
+        </div>
+    {% elif permissions.id == 2 %}
+        <!-- HTML elements specific to permission ID 2 -->
+        <div>
+            <!-- Content for permission ID 2 -->
+        </div>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit User</title>
+</head>
+<body>
+    <h1>Edit User</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- Display user information here -->
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" value="{{ user_instance.username }}" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ user_instance.email }}" required>
+
+        <!-- Display other user information here (e.g., first_name, last_name, role, picture) -->
+
+        <input type="submit" value="Save">
+    </form>
+</body>
+</html>
