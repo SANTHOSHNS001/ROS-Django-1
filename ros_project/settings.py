@@ -100,8 +100,8 @@ DATABASES = {
         "NAME": "ros_db",
         "HOST": "localhost",
         "USER": "root",
-        "PASSWORD": "sugan0797",
-        "PORT": "3306",
+        "PASSWORD": "",
+        "PORT": "3308",
     }
 }
 
