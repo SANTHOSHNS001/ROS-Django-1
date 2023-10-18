@@ -1,9 +1,10 @@
+import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.forms.models import modelformset_factory
 from django.contrib.auth.decorators import login_required
 from .decorators import user_has_role
-from .models import VDML_Document, VDMLDocumentDetail, CustomUser
+from .models import VDML_Document, VDMLDocumentDetail, CustomUser, Projects, ProjectAttribute
 # from .forms import VDMLDocumentDetailForm, VDMLDocumentForm
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
@@ -122,3 +123,73 @@ def vdml_form_view(request):
         return redirect('vdml_view')  # Redirect to a success page or another relevant page
 
     return render(request, 'pages/create_vdml_doc.html', context)
+
+
+
+def add_project_fields_view(request, project_id):
+    project = get_object_or_404(Projects, id=project_id)
+    
+    if request.method == 'POST':
+        field_names = request.POST.getlist('field_name[]')
+        field_types = request.POST.getlist('field_type[]')
+        choices_values = request.POST.getlist('choice_value[]')
+        choices_labels = request.POST.getlist('choice_label[]')
+        
+        # Assuming every field group will have a required checkbox:
+        required_values = ['on' for _ in field_names]
+        required_booleans = [val in request.POST.getlist('required[]') for val in required_values]
+
+        for i in range(len(field_names)):
+            # Convert choice values and labels to JSON format if field type is Dropdown
+            choices_json = None
+            if field_types[i] == 'DropDown':
+                choices = [{"value": choices_values[j], "label": choices_labels[j]} 
+                           for j in range(len(choices_values))]
+                choices_json = json.dumps(choices)
+            
+            ProjectAttribute.objects.create(
+                project=project,
+                field_name=field_names[i],
+                field_type=field_types[i],
+                choices=choices_json,
+                required=required_booleans[i]
+            )
+        
+        # Redirect to the same page to add more fields or to another page as needed
+        return redirect('add_required_fields', project_id=project.id)
+    
+    context = {
+        'project': project
+    }
+    return render(request, 'pages/add_project_fields.html', context)
+
+def edit_project_fields_view(request, project_id):
+    project = get_object_or_404(Projects, id=project_id)
+    attributes = ProjectAttribute.objects.filter(project=project)
+    
+    if request.method == 'POST':
+        # Get the updated data from the form
+        updated_field_names = request.POST.getlist('field_name[]')
+        updated_field_types = request.POST.getlist('field_type[]')
+        updated_choices_values = request.POST.getlist('choice_value[]')
+        updated_choices_labels = request.POST.getlist('choice_label[]')
+        
+        # Update the existing attributes
+        for i, attribute in enumerate(attributes):
+            attribute.field_name = updated_field_names[i]
+            attribute.field_type = updated_field_types[i]
+            
+            if attribute.field_type == 'DropDown':
+                choices = [{"value": updated_choices_values[j], "label": updated_choices_labels[j]} 
+                           for j in range(len(updated_choices_values))]
+                attribute.choices = json.dumps(choices)
+            
+            attribute.save()
+
+        return redirect('edit_project_fields', project_id=project.id)
+    
+    context = {
+        'project': project,
+        'attributes': attributes
+    }
+    return render(request, 'pages/edit_project_fields.html', context)

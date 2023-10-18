@@ -24,4 +24,6 @@ urlpatterns = [
     path('create_project/', create_project_view, name='create_project'),
     path('create_vdml_document/', vdml_form_view, name='create_vdml_document'),
     path('vdml_view/', vdml_view, name='vdml_view'),
+    path('add_required_fields/<int:project_id>/', add_project_fields_view, name='add_required_fields'),
+    path('edit_project_fields/<int:project_id>/', edit_project_fields_view, name='edit_project_fields'),
 ]

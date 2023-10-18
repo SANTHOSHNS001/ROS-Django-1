@@ -100,7 +100,7 @@ DATABASES = {
         "NAME": "ros_db",
         "HOST": "localhost",
         "USER": "root",
-        "PASSWORD": "ss",
+        "PASSWORD": "sugan0797",
         "PORT": "3306",
     }
 }
@@ -154,7 +154,7 @@ MEDIA_URL = "/images/"
 MEDIA_ROOT = BASE_DIR / "static/"
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "static/assets",
 ]
 
 

@@ -1,8 +1,6 @@
 <tr>
   <td><span class="text-nowrap">{{ project.project_name }}</span></td>
-  <td>
-    <span class="text-nowrap">{{ project.duration }} Day(s)</span>
-  </td>
+
   <td>
     <span class="text-nowrap">
       
@@ -20,6 +18,25 @@
             <span class="badge bg-label-primary m-1">{{ manager.username }}</span>
             {% endfor %}
     </span>
+  </td>
+  <td>
+    <!-- Display the required fields for the project -->
+    {% for field in project.attributes.all %}
+    <span class="badge bg-label-info m-1">{{ field.field_name }}</span>
+    {% endfor %}
+<!-- Edit Attributes or Add Attributes based on the  -->
+
+{% if project.attributes.all|length > 0 %}
+<!-- Show "Edit Fields" button if there are attributes -->
+<a href="{% url 'edit_project_fields' project.id %}">
+    <button><i class="ti ti-edit"></i>Edit Fields</button>
+</a>
+{% else %}
+<!-- Show "Add Fields" button if there are no attributes -->
+<a href="{% url 'add_required_fields' project.id %}">
+    <button><i class="ti ti-plus"></i>Add Required Fields</button>
+</a>
+{% endif %}
   </td>
 
   <td>

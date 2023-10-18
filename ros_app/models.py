@@ -128,4 +128,9 @@ class VDMLDocumentDetail(models.Model):
     blng_comment = models.CharField(max_length=200,null=True, blank=True)
 
 
-    
+class ProjectAttribute(models.Model):
+    project = models.ForeignKey(Projects, on_delete=models.CASCADE, related_name="attributes")
+    field_name = models.CharField(max_length=255)
+    field_type = models.CharField(max_length=50)  # e.g. CharField, DateField, DropDown, etc.
+    choices = models.TextField(blank=True, null=True)  # JSON format for DropDown choices
+    required = models.BooleanField(default=False)

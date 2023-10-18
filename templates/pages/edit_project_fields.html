@@ -1,0 +1,131 @@
+{% extends 'layout/container.html' %}
+
+{% block title %} | Edit Attributes{% endblock title %}
+
+{% block body_content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Edit Fields for {{ project.project_name }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Field Name</th>
+                    <th>Field Type</th>
+                    <th class="choices-header">Choices for Dropdown</th>
+                    <th>Required</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="fields-container">
+                {% for attribute in attributes %}
+                <tr class="field-group">
+                    <td>
+                        <input type="text" name="field_name[]" value="{{ attribute.field_name }}" class="form-control" required>
+                    </td>
+                    <td>
+                        <select name="field_type[]" class="form-control" onchange="toggleChoicesVisibility(this)">
+                            <option value="CharField" {% if attribute.field_type == "CharField" %}selected{% endif %}>Text</option>
+                            <option value="DateField" {% if attribute.field_type == "DateField" %}selected{% endif %}>Date</option>
+                            <option value="DropDown" {% if attribute.field_type == "DropDown" %}selected{% endif %}>Dropdown</option>
+                        </select>
+                    </td>
+                    <td class="choices-cell">
+                        <div class="choices-container mb-2">
+                            {% for choice in attribute.choices %}
+                            <div class="choice-group input-group">
+                                <input type="text" name="choice_value[]" value="{{ choice.value }}" placeholder="Value" class="form-control">
+                                <input type="text" name="choice_label[]" value="{{ choice.label }}" placeholder="Label" class="form-control">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-danger" onclick="removeChoice(this)">Remove</button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addChoice(this)">Add Another Choice</button>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="checkbox" name="required[]" {% if attribute.required %}checked{% endif %}>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" onclick="removeFieldGroup(this)">Remove Field</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <button type="button" class="btn btn-success mb-3" onclick="addFieldGroup()">Add Another Field</button>
+        <button type="submit" class="btn btn-primary">Update Fields</button>
+    </form>
+</div>
+
+{% endblock body_content %}
+
+{% block js %}
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+        let dropdowns = document.querySelectorAll('select[name="field_type[]"]');
+        
+        dropdowns.forEach(function(dropdown) {
+            toggleChoicesVisibility(dropdown);
+        });
+    });
+    
+    function addFieldGroup() {
+        let container = document.getElementById('fields-container');
+        let clone = container.querySelector('.field-group').cloneNode(true);
+    
+        // Reset the values of the cloned row
+        let inputs = clone.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            if (input.type === 'checkbox') {
+                input.checked = false;
+            } else {
+                input.value = '';
+            }
+        });
+    
+        container.appendChild(clone);
+    }
+    
+    function removeFieldGroup(button) {
+        let row = button.closest('tr'); // Get the closest table row to the button
+        row.parentElement.removeChild(row); // Remove the table row from its parent
+    }
+    function toggleChoicesVisibility(dropdown) {
+        let table = document.querySelector('table');
+        let choiceHeaders = table.querySelectorAll('.choices-header');
+        let choiceCells = table.querySelectorAll('.choices-cell');
+    
+        let dropdowns = table.querySelectorAll('select[name="field_type[]"]');
+        let isDropdownSelected = Array.from(dropdowns).some(dropdown => dropdown.value === 'DropDown');
+    
+        if (isDropdownSelected) {
+            choiceHeaders.forEach(header => header.style.display = 'table-cell');
+            choiceCells.forEach(cell => cell.style.display = 'table-cell');
+        } else {
+            choiceHeaders.forEach(header => header.style.display = 'none');
+            choiceCells.forEach(cell => cell.style.display = 'none');
+        }
+    }
+        
+  function addChoice(button) {
+    let choiceContainer = button.parentElement;
+    let clone = choiceContainer.querySelector(".choice-group").cloneNode(true);
+
+    // Reset the values of the cloned group
+    let inputs = clone.querySelectorAll("input");
+    inputs.forEach((input) => (input.value = ""));
+
+    choiceContainer.insertBefore(clone, button);
+  }
+  function removeChoice(button) {
+    let choiceGroup = button.closest('.choice-group'); // Get the closest choice group to the button
+    choiceGroup.parentElement.removeChild(choiceGroup); // Remove the choice group from its parent
+}
+
+</script>
+{% endblock js %}
