@@ -1,0 +1,66 @@
+{% extends "layout/container.html" %}
+
+{% block body_content %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <!-- Your existing styles and scripts -->
+</head>
+
+<body>
+    {% if name %}
+    <h1>{{ name.name }}</h1>
+    {% endif %}
+
+    <div class="image-detail-container">
+        <table>
+            <tr>
+                
+                <th>UserName &emsp;</th>
+                <th>FirstName &emsp;</th>
+                <th>LastName &emsp;</th>
+                <th>Email &emsp;</th>
+                <th>RoleID &emsp;</th>
+                <th>Created Date &emsp;</th>
+            </tr>
+            {% for img_obj in roles %}
+            <tr>
+                
+                <td>{{ img_obj.username }}</td>
+                <td>{{ img_obj.first_name }}</td>
+                <td>{{ img_obj.last_name }}</td>
+                <td>{{ img_obj.email }}</td>
+                <td>{{ img_obj.role_id }}</td>
+                <td>{{ img_obj.date_joined }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div id="success-message" style="display: none; color: green;">User data updated successfully!</div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Your JavaScript code for handling any other actions goes here
+    </script>
+</body>
+
+</html>
+{% endblock %}

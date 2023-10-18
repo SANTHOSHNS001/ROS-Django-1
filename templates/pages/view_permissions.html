@@ -1,0 +1,88 @@
+{% extends "layout/container.html" %}
+
+{% block body_content %}
+<div class="card">
+    <div class="card-datatable table-responsive">
+        <table class="datatables-permissions table border-top" id="datatable">
+            <thead>
+                <tr>
+                    <th>Permissions</th>
+                    <th>USERS</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in role %}
+                <tr>
+                    <td>
+                        {% for record in results %}
+                        {% if record.role.id == r.role.id %}
+                        Permission: {{ record.permission.name }}<br>
+                        Read: <input type="text" class="read-input" value="{% if record.can_read %}yes{% else %}no{% endif %}" disabled><br>
+                        Write: <input type="text" class="write-input" value="{% if record.can_write %}yes{% else %}no{% endif %}" disabled><br>
+                        Edit: <input type="text" class="edit-input" value="{% if record.can_edit %}yes{% else %}no{% endif %}" disabled><br>
+                        Delete: <input type="text" class="delete-input" value="{% if record.can_delete %}yes{% else %}no{% endif %}" disabled><br>
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <div id="user-{{ r.id }}">
+                            Role: {{ r.role.name }}<br>
+                            ID: {{ r.id }}<br>
+                            USERNAME: <input type="text" value="{{ r.username }}" disabled><br>
+                            FIRST_NAME: <input type="text" value="{{ r.first_name }}" disabled><br>
+                            LAST_NAME: <input type="text" value="{{ r.last_name }}" disabled><br>
+                            ROLE_ID: <input type="text" value="{{ r.role_id }}" disabled><br>
+                            <button class="edit-button" data-user-id="{{ r.id }}">Edit</button>
+                            <button class="save-button" data-user-id="{{ r.id }}" style="display: none;">Save</button>
+                            <a href="#" onclick="confirmDelete('{{ r.id }}')">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(".edit-button").click(function () {
+            var userId = $(this).data("user-id");
+            var userDiv = $("#user-" + userId);
+            var userInputs = userDiv.find("input");
+
+            // Enable input fields for users
+            userInputs.prop("disabled", false);
+
+            // Enable or disable permission input fields based on their values
+            userDiv.find("td input").each(function () {
+                var value = $(this).val().toLowerCase().trim();
+
+                if (value === "yes") {
+                    $(this).prop("disabled", false);
+                } else {
+                    $(this).prop("disabled", true);
+                }
+            });
+
+            // Show the "Save" button and hide the "Edit" button
+            userDiv.find(".edit-button").hide();
+            userDiv.find(".save-button").show();
+        });
+
+        $(".save-button").click(function () {
+            var userId = $(this).data("user-id");
+            var userDiv = $("#user-" + userId);
+            var userInputs = userDiv.find("input");
+
+            // Disable input fields after saving
+            userInputs.prop("disabled", true);
+
+            // Show the "Edit" button and hide the "Save" button
+            userDiv.find(".save-button").hide();
+            userDiv.find(".edit-button").show();
+
+            // Perform AJAX save operation here, update user and permission data on the server
+            // You can use a similar AJAX approach as you did for deleting users
+        });
+    </script>
+</div>
+{% endblock %}
